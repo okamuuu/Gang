@@ -1,0 +1,54 @@
+load --table Article
+[
+  {
+    "_key": "20110401000000",
+    "title": "Groonga1",
+    "content": "今日からGroongaをはじめます",
+  },  
+  {
+    "_key": "20110402000000",
+    "title": "Groonga2",
+    "content": "Groongaなかなか難しい",
+  },  
+  {
+    "_key": "20110403000000",
+    "title": "Groonga3",
+    "content": "Groonga慣れてきたかも",
+  },  
+  {
+    "_key": "20110404000000",
+    "title": "Groonga4",
+    "content": "やっぱGroongaむずいっす",
+  },  
+  {
+    "_key": "20110405000000",
+    "title": "Groonga5",
+    "content": "こつをつかんだ",
+  },  
+  {
+    "_key": "20110406000000",
+    "title": "Groonga6",
+    "content": "ぐるぐるしてきた",
+  },  
+  {
+    "_key": "20110407000000",
+    "title": "Groonga7",
+    "content": "ぐるんがー",
+  },  
+  {
+    "_key": "20110408000000",
+    "title": "Groonga8",
+    "content": "もしかしたら、そうなのかも",
+  },  
+  {
+    "_key": "20110409000000",
+    "title": "Groonga9",
+    "content": "やっぱりそうだったのか、ぐるんが",
+  },  
+  {
+    "_key": "20110410000000",
+    "title": "Groonga10",
+    "content": "やっぱりちがった",
+  },  
+]
+

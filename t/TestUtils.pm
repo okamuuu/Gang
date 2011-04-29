@@ -3,14 +3,18 @@ use strict;
 use warnings;
 use Gang::Path;
 use Test::Groonga;
-use LWP::UserAgent;
 
 sub create_test_grn_with_10articles {
     my $class = shift;
 
+    my $load_tmp_file = Gang::Path->concatenate_to_tmp_file(
+        Gang::Path->grn_schema_file,
+        Gang::Path->grn_test_file_of('load_10articles.grn'),
+    );
+
     my $grn = Test::Groonga->create(
         protocol => 'http',
-        preload  => Gang::Path->grn_schema_file->stringify,
+        preload  => $load_tmp_file,
     );
 
     my $url = "http://127.0.0.1:@{[ $grn->port ]}/d/status";

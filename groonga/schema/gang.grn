@@ -1,5 +1,4 @@
-table_create Archive TABLE_HASH_KEY ShortText
-column_create Archive url COLUMN_SCALAR|COMPRESS_NONE ShortText
-column_create Archive title COLUMN_SCALAR|COMPRESS_NONE ShortText
-column_create Archive content COLUMN_SCALAR|COMPRESS_NONE Text
+table_create Article TABLE_HASH_KEY ShortText
+column_create Article title COLUMN_SCALAR ShortText
+column_create Article content COLUMN_SCALAR Text
 
