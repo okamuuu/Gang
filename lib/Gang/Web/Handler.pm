@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use Gang::Web::Router;
 use Gang::Web::Context;
-use Gang::Web::Controller::Root;
 use Plack::Request;
 use Try::Tiny qw/try catch/;
 use Carp ();
