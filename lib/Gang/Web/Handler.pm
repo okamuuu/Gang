@@ -1,40 +1,35 @@
 package Gang::Web::Handler;
 use strict;
 use warnings;
-use Gang::Web::Action;
+use Gang::Web::Router;
 use Gang::Web::Context;
+use Gang::Web::Controller::Root;
 use Plack::Request;
 use Try::Tiny qw/try catch/;
 use Carp ();
 
 sub app {
     my $class = shift;
-    my %args = @_ == 1 ? %{$_[0]} : @_;
   
-    my $router      = delete $args{router};
-    my $controllers = delete $args{controllers};
+    my $router = Gang::Web::Router->router;
 
-    if ( ref $router ne 'Router::Simple' ) {
-        Carp::croak('this is NOT the Router::Simple...');
-    }
-   
-    Gang::Web::Action->use_controllers(@{$controllers});
-    
     return sub {
         my $env = shift;
 
-        my $rule = $router->match($env) or return $class->handle_404;
+        my $route = $router->match($env) or return $class->handle_404;
 
         my $req = Plack::Request->new($env);
-
+        
         my $context = Gang::Web::Context->new(
-            request => $req,
+            base_class => 'Gang::Web::Controller',
+            root_class => 'Gang::Web::Controller::Root',
+            request  => $req,
             response => $req->new_response(200),
-            stash => {},
+            stash    => {},
         );
 
         try {    
-            Gang::Web::Action->run($rule, $context);
+            $context->run_through( $route->{code}->() );
         }
         catch {
             warn $_;
