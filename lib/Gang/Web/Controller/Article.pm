@@ -1,4 +1,4 @@
-package Gang::Web::Controller::Archive;
+package Gang::Web::Controller::Article;
 use strict;
 use warnings;
 

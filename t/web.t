@@ -25,7 +25,7 @@ test_psgi $app, sub {
 
 test_psgi $app, sub {
     my $cb  = shift;
-    my $res = $cb->( GET "/archive/list" );
+    my $res = $cb->( GET "/article/list" );
 
     my $data = JSON::decode_json($res->content);
     my $status_code = $data->[0]->[0];
@@ -34,7 +34,7 @@ test_psgi $app, sub {
 
 test_psgi $app, sub {
     my $cb  = shift;
-    my $res = $cb->( GET "/archive/show" );
+    my $res = $cb->( GET "/article/show" );
 
     my $data = JSON::decode_json($res->content);
     my $status_code = $data->[0]->[0];
@@ -43,7 +43,7 @@ test_psgi $app, sub {
 
 test_psgi $app, sub {
     my $cb  = shift;
-    my $res = $cb->( POST "/archive/create" );
+    my $res = $cb->( POST "/article/create" );
 
     my $data = JSON::decode_json($res->content);
     my $status_code = $data->[0]->[0];
@@ -52,7 +52,7 @@ test_psgi $app, sub {
 
 test_psgi $app, sub {
     my $cb  = shift;
-    my $res = $cb->( POST "/archive/update" );
+    my $res = $cb->( POST "/article/update" );
 
     my $data = JSON::decode_json($res->content);
     my $status_code = $data->[0]->[0];
@@ -61,17 +61,12 @@ test_psgi $app, sub {
 
 test_psgi $app, sub {
     my $cb  = shift;
-    my $res = $cb->( POST "/archive/delete" );
+    my $res = $cb->( POST "/article/delete" );
 
     my $data = JSON::decode_json($res->content);
     my $status_code = $data->[0]->[0];
     is $status_code, 0;
 };
-
-
-
-
-
 
 done_testing();
 
