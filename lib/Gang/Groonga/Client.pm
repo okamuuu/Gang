@@ -25,23 +25,34 @@ sub get_status {
     return JSON::decode_json( $res->content );
 }
 
-sub lookup_by_key {
-    my ($self, $table, $key) = @_;
+sub list {
+    my ($self, $table, $cond, $attr) = @_;
 
-    my $uri = $self->_base_uri("select");
-    $uri->query_form(table => $table, query => "_key:$key" );
 
-    warn $uri;
-
-    my $res = $self->ua->get($uri);
-    _croak_if_not_success($res); 
-
-    return JSON::decode_json( $res->content );
 }
 
-sub _croak_if_not_success {
-    my $res = shift;
+sub lookup_by_key {
+    my ( $self, $table, $key ) = @_;
 
+    my $uri = $self->_base_uri("select");
+    $uri->query_form( table => $table, query => "_key:$key" );
+
+    my $data = JSON::decode_json( $self->get($uri)->content );
+
+    ### 都度配列展開するので素直にテーブル毎にクラス化する予定
+    my @names  = map { $_->[0] } @{ $data->[1]->[0]->[1] };
+    my @values = @{ $data->[1]->[0]->[2] };
+
+    my %columns = map { $names[$_] => $values[$_] } ( 0 .. $#names );
+
+    return {%columns};
+}
+
+sub get {
+    my ($self, $uri) = @_;
+
+    my $res = $self->ua->get($uri);
+    
     if ( not $res->is_success ) {
         Carp::croak(
             "Groonga server return error status\n" . 
