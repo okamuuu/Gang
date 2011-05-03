@@ -30,6 +30,17 @@ subtest 'lookup article by _key' => sub {
     ok(1);
 };
 
+subtest 'list article' => sub {
+    
+    my $data = $client->list('Article');
+
+    use Data::Dumper;
+    warn Dumper $data;
+
+    ok(1);
+};
+
+
 
 done_testing;
 
