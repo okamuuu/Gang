@@ -1,0 +1,156 @@
+@charset "utf-8";
+
+/* new Linux- and Windows-friendly sans-serif font stack: http://mky.be/fontstack */
+body {font: 13px Helmet, Freesans, sans-serif;}
+
+/* we like off-black for text */
+body, select, input, textarea {color: #333;}
+
+div.wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0;
+    background: #EEEEEE;
+}
+
+header {
+    background: #DDDDDD;
+}
+
+header h1 {
+    font-family:Helvetica, Arial, sans-serif;
+    font-size:160%;
+    font-weight:bold;
+    margin: 15px 0;
+    background: #DDDDDD;
+}
+
+nav#primary {
+    margin: 0 0 15px 0;
+    background: #CCCCCC;
+    border-bottom: #000000 3px solid;
+}
+
+section#content {
+}
+
+section#content article {
+}
+
+footer {
+    background: #AAAAAA;
+}
+
+nav ol {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+nav ol li {
+    float: left;
+    margin: 0;
+    padding: 0;
+    font-family: Georgia, serif;
+    font-size: 80%;
+    letter-spacing: 2px;
+}
+
+nav ol li a{
+    float: left;
+    font-size: 95%;
+    margin: 0;
+    padding: 10px 12px 10px 12px;
+    text-decoration: none;
+    color: #979183;
+    border: none;
+}
+
+nav ol li.current a {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+nav ol li a:hover {
+    color: #666666;
+}
+
+h1, h2, p {
+    margin-bottom: 15px;
+}
+
+header h1,
+section h1,
+article h1 {
+    color:#222222;
+    font-weight: normal;
+    font-family:palatino, georgia, times, serif;
+    font-size:24px;
+    line-height:24px;
+}
+
+section h2,
+article h2 {
+  color:#222222;
+  font:normal normal normal 16px/16px palatino, georgia, times, serif;
+}
+
+section p,
+article p {
+    margin-left: 15px;
+    margin-right: 15px;
+    font:normal normal normal 16px/16px palatino, georgia, times, serif;
+}
+
+nav#tab {
+    text-align: right;
+    color:#FFFFFF;
+    margin: 0 0 30px 0;
+    padding: 0 0 0 0;
+    background-color: #FFFFFF; /*#332211;*/
+    border-bottom: 1px solid #CCCCCC;
+}
+
+nav#tab ol li { float: left;  list-style: none; margin:0; padding:0; }
+nav#tab ol li:last-child {padding-right: 0;}
+        
+nav#tab ol li a {
+    margin: 5px; 
+    text-decoration: none;
+}
+
+nav#tab ol li.current a,
+nav#tab ol li a:link, 
+nav#tab ol li a:visited, 
+nav#tab ol li a:hover {
+    display:block;
+    margin:0;
+    padding:15px 45px 15px 0;
+}
+
+nav#tab ol li.current a,
+nav#tab ol li a:hover { color: #000;}
+nav#tab ol li a:before {content: "\2605\0020";}
+
+nav#pagenav ul {
+    margin: 0;
+    padding:5px;
+}
+
+nav#pagenav ul li {
+    color: #CCCCCC;
+    display: block;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    line-height: 21px;
+    margin: 0px 6px 0px 0;
+    padding: 0px 10px 0px 0;
+    -webkit-transition: all 0.3s ease-in;
+}
+
+nav#pagenav ul li:hover {
+    color: #333333;
+    -webkit-transition: all 0.3s ease-in;
+}

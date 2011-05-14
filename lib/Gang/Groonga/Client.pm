@@ -11,7 +11,7 @@ use Class::Accessor::Lite 0.05 (
 
 sub new {
     my ($class, %params) = @_;
-    $params{ua} = LWP::UserAgent->new();
+    $params{ua} ||= LWP::UserAgent->new();
     bless {%params}, $class; 
 }
 
@@ -38,17 +38,19 @@ sub list {
     my $uri = $self->_uri("select");
     $uri->query_form(
         table          => $table,
-#        match_columns  => 'title * 10 || content * 1',
-#        query          => $self->make_query($query),
-#        output_columns => '_key,_score',
-#        sortby         => '-_score',
+        match_columns  => $cond->{match_columns} || undef,
+        query          => $cond->{query} || undef,
+        output_columns => $cond->{output_columns} || undef,
+        sortby         => $cond->{sortby} || undef,
         limit          => $limit,
         offset         => $offset,
         query_cache    => 'no',
     );
+
+    warn $uri;
     
     my $data = JSON::decode_json( $self->get($uri)->content );
-   
+ 
     my ($count, $column_infos_ref, @values_list) = @{ $data->[1]->[0] };
     my @column_names = map { $_->[0] } @{ $column_infos_ref };
 

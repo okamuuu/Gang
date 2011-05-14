@@ -3,6 +3,7 @@ name 'Gang';
 all_from 'lib/Gang.pm';
 
 # requires '';
+requires 'Plack::Middleware::Debug::W3CValidate' => 0.04
 
 tests 't/*.t';
 author_tests 'xt';

@@ -1,0 +1,159 @@
+a {
+    position: relative; 
+    color: #CCC; 
+    -webkit-transition: all 0.3s ease-in;
+}
+
+a:active {position: relative; top: 1px;}
+a:hover { color: #333; -webkit-transition: all 0.3s ease-in;}
+
+body {
+    color: #333333;
+    font: normal 16px/22px "aurea-ultra-1", "aurea-ultra-2", georgia, times, serif;
+    width: 680px; 
+    margin: 0 auto;
+}
+
+header {
+    padding: 0;
+    background-color:#FFFFFF;
+}
+
+header h1 {
+    font-size: 40px;
+    line-height: 40px;
+    margin: 15px 0;
+}
+
+h1 a { 
+    color: #000;
+    font-weight: bold; 
+    text-decoration: none; 
+}
+
+nav#primary {
+    color:#FFFFFF;
+    margin: 0 0 30px 0;
+    padding: 0 0 0 0;
+    background-color: #FFFFFF;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+
+nav#primary ol li { float: left;  list-style: none; margin:0; padding:0; }
+        
+nav#primary ol li a { text-decoration: none; }
+
+nav#primary ol li.current a,
+nav#primary ol li a:link, 
+nav#primary ol li a:visited, 
+nav#primary ol li a:hover {
+    display:block;
+    padding:15px 30px 15px 0;
+}
+
+nav#primary ol li.current a,
+nav#primary ol li a:hover { color: #333;}
+nav#primary ol li a:before {content: "\2605\0020";}
+
+article h1,
+article h2,
+article p,
+article pre {
+    margin-bottom: 15px;
+}
+
+#content article h1 {
+    color: #222222;
+    font-size: 38px; 
+    line-height: 38px;
+    background: url(../images/dot_line.gif) repeat-x left bottom;
+}
+
+#content article h2 {
+    font: normal 24px/24px "aurea-ultra-1","aurea-ultra-2", georgia, times, serif;
+}
+ 
+#content article p {
+}
+
+article pre {
+    padding: 15px;
+    border: 1px solid #CCCCCC;
+    background-color: #EEEEEE;
+}
+ 
+footer {
+    text-align: center;
+    margin: 60px 0 0; 
+    padding: 0 0 20px; 
+}
+
+.shadowbox {
+position: relative;
+display: block;
+background-color: white;
+-moz-box-shadow: 0px 0px 4px silver;
+-webkit-box-shadow: 0px 0px 4px silver;
+box-shadow: 0px 0px 4px silver;
+}
+
+.searchform {
+    display: inline-block;
+    zoom: 1; /* ie7 hack for display:inline-block */
+    *display: inline;
+    border: solid 1px #d2d2d2;
+    padding: 3px 5px;
+    
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+ 
+    -webkit-box-shadow: 0 1px 0px rgba(0,0,0,.1);
+    -moz-box-shadow: 0 1px 0px rgba(0,0,0,.1);
+    box-shadow: 0 1px 0px rgba(0,0,0,.1);
+ 
+    background: #f1f1f1;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+    background: -moz-linear-gradient(top,  #fff,  #ededed);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed'); /* ie7 */
+    -ms-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed'); /* ie8 */
+}
+.searchform input {
+    font: normal 12px/100% Arial, Helvetica, sans-serif;
+}
+.searchform .searchfield {
+    background: #fff;
+    padding: 6px 6px 6px 8px;
+    width: 202px;
+    border: solid 1px #bcbbbb;
+    outline: none;
+ 
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+ 
+    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+}
+.searchform .searchbutton {
+    color: #fff;
+    border: solid 1px #494949;
+    font-size: 11px;
+    height: 27px;
+    width: 27px;
+    text-shadow: 0 1px 1px rgba(0,0,0,.6);
+ 
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+ 
+    background: #5f5f5f;
+    background: -webkit-gradient(linear, left top, left bottom, from(#9e9e9e), to(#454545));
+    background: -moz-linear-gradient(top,  #9e9e9e,  #454545);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); /* ie7 */
+    -ms-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); /* ie8 */
+}
+

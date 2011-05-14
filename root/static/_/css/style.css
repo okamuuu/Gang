@@ -1,0 +1,302 @@
+body {
+    background-color: #f7f7f7;
+    color: #2B373D;
+    /* new, Linux- and Windows-friendly font stack: http://mky.be/fontstack */
+    font: normal 14px/20px Helmet, Freesans, sans-serif;
+    margin: 60px 0 36px;
+    padding: 0;
+}
+
+.ie body {margin-top: 40px;}
+
+a {color: #009;}
+a:hover {color: #66f;}
+
+/* Custom text-selection colors (remove any text shadows: twitter.com/miketaylr/status/12228805301) */
+::-moz-selection {background: #ff6;}
+::selection {background: #ff6;}
+
+/* I don't like it when images are highlighted */
+img::-moz-selection {background: transparent;}
+img::selection {background: transparent;}
+
+html {-webkit-text-size-adjust: none;}
+
+/*  j.mp/webkit-tap-highlight-color */
+a:link {-webkit-tap-highlight-color: rgba(255,255,102,0.8);} 
+
+ins {background-color: #ff6; color: #000; text-decoration: none;}
+mark {background-color: #ff6; color: #000; font-style: italic; font-weight: bold;}
+
+time {padding-right: 4px; font-size: 12px;}
+
+code {color: #000; background: #ececec; padding: 0 4px;}
+
+a {position: relative; -webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; -o-transition: all 0.3s ease; transition: all 0.3s ease;}
+a:active {position: relative; top: 1px;}
+
+div.wrapper {width: 90%; max-width: 580px; margin: 0 auto;}
+
+.ie body {text-align: center;}
+.ie div.wrapper {text-align: left; width: 580px;}
+
+h1 {
+    position: relative; 
+    margin: 0 0 18px; 
+    font: normal 40px "aurea-ultra-1", "aurea-ultra-2", georgia, times, serif;
+}
+
+.ie h1 {font-family: georgia, times, serif;}
+
+h1 a {text-decoration: none; color: #333;}
+
+.right { text-align: right }
+
+/* --- navigation --- */
+nav#primary {}
+
+nav#primary ol {}
+
+nav#primary ol li { 
+    float: left;
+    list-style: none; 
+    margin:0; 
+    padding:0;
+}
+    
+nav#primary ol li a { 
+    text-decoration: none; 
+    font-size: 12px; 
+    text-transform: uppercase; 
+    color: #444; 
+    font-family: palatino, georgia, times, serif; 
+    white-space: nowrap;
+}
+
+nav#primary ol li.current a,
+nav#primary ol li a:link, 
+nav#primary ol li a:visited, 
+nav#primary ol li a:hover {
+    display:block;
+    margin-right: 5px;
+    padding: 10px 30px;
+}
+
+nav#primary ol li.current a,
+nav#primary ol li a:hover { 
+    background: #cecece;
+}
+
+nav#secondary {
+    margin-bottom: 45px; 
+    padding-top: 12px; 
+    border-top: 3px solid #cecece; 
+}
+
+nav#secondary ol li {
+    display: inline-block; 
+    margin-bottom: 6px; 
+    padding-right: 12px;
+}
+
+nav#secondary ol li:last-child {
+    padding-right: 0;
+}
+        
+nav#secondary ol li a {
+    text-decoration: none; 
+    font-size: 12px; 
+    color: #999; 
+    font-family: palatino, georgia, times, serif; 
+    white-space: nowrap;
+}
+
+nav#secondary ol li.current a,
+nav#secondary ol li a:hover { color: #333;}
+nav#secondary ol li a:before {content: "\2605\0020";}
+
+ul.pager {
+    font-size: 12px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    padding: 5px 0;
+    text-align: center;
+}
+
+ul.pager li {
+    display: inline-block; 
+    margin-right: 10px;
+    padding: 5px;
+}
+
+ul.pager li.current {
+    color: #FFF;
+    background: #333;
+}
+
+ul.pager li a {
+    color: #999;
+    text-decoration: none;
+}
+
+ul.pager li a:hover {
+    color: #333;
+}
+
+#search {
+    text-align: center;
+    padding: 10px 0;
+    background: #CCC;
+}
+
+hr {
+    display: none; 
+    height: 0; 
+    width: 25%; 
+    margin: 50px auto 50px; 
+    border: 0; 
+    border-bottom: 1px solid #ccc; 
+    border-bottom: 1px solid rgba(255,255,255,.3);
+}
+
+article {
+    margin: 0 0 60px 0;
+}
+
+article h1 {
+    margin-bottom: 15px; 
+    padding: 15px 0; 
+    font-size: 24px; 
+    line-height: 24px; 
+    color: #222; 
+    font-family: palatino, georgia, times, serif;
+    background: url(../img/dot.gif) repeat-x left bottom;
+}
+
+article h2 {
+    margin: 30px 0 15px 0; 
+    font: normal 16px/16px palatino, georgia, times, serif; 
+    color: #222; 
+    text-transform: uppercase;
+}
+
+article h2:before {content: "\2605\0020";}
+
+article pre {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #CCC;
+    background: #EEE;
+}
+
+article p {margin-bottom: 15px;}
+article ol {margin: 0 0 18px 24px;}
+article ul {margin: 0 0 18px 0;}
+article ul li {padding-left: 73px; text-indent: -73px;} 
+article ul li time {}
+article ul.links {margin: 18px 0;}
+article ul.links li {margin: 0 0 6px 0; padding-left: 18px; text-indent: -18px;}
+article ul.links li:before {content: "\2605\0020";}
+article ul.links li.noStar {margin-left: 44px; font-size: 14px; font-style: italic;}
+article ul.links li.noStar:before {content: "";}
+        
+.ie article ul.links li:before {content: "&raquo; ";}
+.ie article ul.links li.noStar {margin-left: 36px;}
+.ie article ul.links li.noStar:before {content: "";}
+
+article figure {float: right; position: relative; margin: 0 -25% 12px 12px;}
+article figure img {display: block; background: #fff; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;}
+        
+
+@media screen and (max-width: 992px) {
+    article figure {
+        max-width: 50%; 
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    article figure {width: auto; max-width: 100%; float: none; margin: 0 auto 18px;}
+    article figure img {width: 100%;}
+}
+        
+article figure:before,
+article figure:after {content: ""; position: absolute; z-index: -2;}
+    
+/* Lifted corners */
+    
+article figure:before,
+article figure:after { 
+    bottom:17px;
+    left:5px;
+    width:50%;
+    height:10%;
+    -webkit-box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);   
+       -moz-box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
+            box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
+    -webkit-transform:rotate(-3deg);    
+       -moz-transform:rotate(-3deg);   
+        -ms-transform:rotate(-3deg);   
+         -o-transform:rotate(-3deg);
+            transform:rotate(-3deg);
+}
+
+article figure:after {
+    right:5px; 
+    left:auto;
+    -webkit-transform:rotate(3deg);   
+       -moz-transform:rotate(3deg);  
+        -ms-transform:rotate(3deg);  
+         -o-transform:rotate(3deg);
+            transform:rotate(3deg);
+}
+
+footer {
+    text-align: center;
+    position: relative; 
+    margin: 60px 0 100px; 
+    padding: 12px 0 20px; 
+    font-size: 14px; 
+    border-top: 3px solid #cecece; 
+    color: #666;
+}
+
+footer a {color: #666;}
+
+/* Print styles!
+-------------------------------------------------------------------------------*/
+@media print {
+
+
+
+}
+
+
+/* Media queries!
+-------------------------------------------------------------------------------*/
+
+/* Consider this: www.cloudfour.com/css-media-query-for-mobile-is-fools-gold/ */
+@media screen and (max-device-width: 480px) {
+    
+        body {margin-top: 10px;}
+        div.wrapper {width: 90%; max-width: auto; margin: 0 auto;}
+        #updated {top: 10px; left: 80%;}
+        article figure {width: auto; max-width: 100%; float: none; margin: 0 auto 18px;}
+        article figure img {width: 100%;}
+        
+        nav {padding-top: 4px;}
+        nav ol li {display: block; padding-right: 0;}
+        nav ol li a {display: block; margin-bottom: 4px; text-align: center; background: #eee; line-height: 30px;}
+            nav ol li a:after {content: ""; display: none; position: static;}
+            nav ol li a:hover {color: #444;}
+        
+}
+
+@media all and (orientation: portrait) {
+    
+}
+
+@media all and (orientation: landscape) {
+    
+}
+
