@@ -251,6 +251,21 @@ article figure:after {
             transform:rotate(3deg);
 }
 
+#comments {
+}
+
+#comments h1 {
+    font-size: 18px;
+}
+
+#comments article {
+    background-color:#F7F7F7;
+    border: 1px solid #CCC;
+    margin: 0 0 15px 0;
+    padding: 10px;
+}
+
+
 footer {
     text-align: center;
     position: relative; 
@@ -262,6 +277,8 @@ footer {
 }
 
 footer a {color: #666;}
+
+
 
 /* Print styles!
 -------------------------------------------------------------------------------*/
