@@ -1,6 +1,7 @@
 package Gang::Web::Handler;
 use strict;
 use warnings;
+use Gang::Unit::TX;
 use Gang::Web::Router;
 use Gang::Web::Context;
 use Plack::Request;
@@ -22,6 +23,7 @@ sub app {
         my $context = Gang::Web::Context->new(
             base_class => 'Gang::Web::Controller',
             root_class => 'Gang::Web::Controller::Root',
+            renderer => Gang::Unit::TX->new,
             request  => $req,
             response => $req->new_response(200),
             stash    => {},

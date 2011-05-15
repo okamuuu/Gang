@@ -1,0 +1,20 @@
+<article> 
+    
+    <h1>This is Article Title</h1> 
+    
+    <p>Like a lot of developers, we start every HTML project with the same set of HTML and CSS files. We've been using these files for a long time and have progressively added bits and pieces to them as our own personal best practices have evolved.</p> 
+    
+    <p>Now that modern browsers are starting to support some of the really useful parts of HTML5 and CSS3, it's time for our best practices to catch up, and we thought we'd put our files out there for everyone to use. By no means do we see this as the One True Way to start every project, but we think it's a good starting place that anyone can make their own.</p> 
+
+    <h2>About Version 2</h2> 
+    
+    <figure><img src="_/img/20110423-IMG_6664.jpeg" alt="hachiojipm." /></figure> 
+    
+    <p>The biggest change is to our stylesheets. We've been using the browser-specific style sheets less and less often in our work so we eliminated them, which saves us the overhead of additional downloads. In their place we're now using Paul Irish's conditional comments technique to add IE-specific classes to the HTML tag &#8212; creating IE-specific styles is now as easy as <code>.ie body { IE styles go here }</code>.</p> 
+    
+    <p>In the same spirit, we've also moved our print styles into the main stylesheet and added a mobile/small display style block (including blocks for orientation). The end result is a faster-downloading page.</p> 
+    
+    <p>Also in the sprirt of simplifiction, we've eliminated the "Bare Bones" version and are now only offering one set of fully-commented files. (We assume everyone is tweaking the files for their own use anyway, so go ahead and strip the comments out at your leisure!)</p> 
+    
+    <p>Finally, and sigificantly, we're hosting <a href="https://github.com/murtaugh/HTML5-Reset">the files on GitHub</a> (yay!) for better issue and version tracking.</p> 
+</article>

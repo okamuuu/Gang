@@ -1,0 +1,38 @@
+<article>
+
+<h1><a href="#">Testing ruby product 'keydown' </a></h1>
+
+<p class="right"><time>May 4, 2011</time></p> 
+
+<p>I tried to install keydown in my MacOSX and I wrote it down here. </p> 
+
+<h2>git clone</h2>
+
+<p>At first, mkdir project directory and chage directory</p>
+
+<pre>
+    % mkdir -p ~/project
+    % cd ~/project
+</pre> 
+
+<p>Next, implement git command 'git clone'</p>
+
+<pre>
+    % git clone https://github.com/infews/keydown.git
+</pre> 
+
+<p>you've got keydown source code</p>
+
+<h2>PATH & RUBYLIB</h2> 
+
+<pre>
+ho &#39;RUBYLIB=$HOME/project/keydown/lib:$RUBYLIB
+rt RUBYLIB
+
+=$HOME/project/keydown/bin:$PATH
+rt PATH
+; &gt;&gt; ~/.zshrc_custom
+urce ~/.zshrc_custom
+e>
+
+</article>

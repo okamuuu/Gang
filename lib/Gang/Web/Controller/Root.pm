@@ -18,6 +18,14 @@ sub post_index {
 
 sub end {
     my ( $class, $c ) = @_;
+
+    if ( $c->stash->{template} ) { 
+        warn 'hoge';
+        my $content = $c->renderer->render($c->stash->{template}, $c->stash );  
+        $c->res->body($content);
+    }   
+
+
 }
 
 1;

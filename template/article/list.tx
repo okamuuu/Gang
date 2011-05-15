@@ -1,0 +1,10 @@
+: cascade base
+: override content -> {
+
+: include "/article/_article.tx";
+
+: include "/article/_article2.tx";
+
+: include "_pager.tx";
+
+: }

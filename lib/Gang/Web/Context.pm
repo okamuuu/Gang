@@ -2,7 +2,7 @@ package Gang::Web::Context;
 use strict;
 use warnings;
 use Class::Accessor::Lite 0.05 (
-    ro=> [qw/base_class root_class request response stash/],
+    ro=> [qw/base_class root_class renderer request response stash/],
 );
 
 sub new {
