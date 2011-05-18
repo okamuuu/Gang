@@ -14,6 +14,7 @@ my $app = Gang::Web::Handler->app;
 test_psgi $app, sub {
     my $cb  = shift;
     my $res = $cb->( GET "/" );
+
     is $res->content, "get_index";
 };
 
@@ -27,18 +28,14 @@ test_psgi $app, sub {
     my $cb  = shift;
     my $res = $cb->( GET "/article/list" );
 
-    my $data = JSON::decode_json($res->content);
-    my $status_code = $data->[0]->[0];
-    is $status_code, 0;
+    ok $res->status_line, $res->status_line;
 };
 
 test_psgi $app, sub {
     my $cb  = shift;
     my $res = $cb->( GET "/article/show" );
 
-    my $data = JSON::decode_json($res->content);
-    my $status_code = $data->[0]->[0];
-    is $status_code, 0;
+    ok $res->status_line, $res->status_line;
 };
 
 test_psgi $app, sub {
@@ -67,6 +64,16 @@ test_psgi $app, sub {
     my $status_code = $data->[0]->[0];
     is $status_code, 0;
 };
+
+test_psgi $app, sub {
+    my $cb  = shift;
+    my $res = $cb->( GET "/admin/keyword/list" );
+
+    warn $res->status_line;
+
+    ok ($res->status_line !~ m/404/ ), $res->status_line;
+};
+
 
 done_testing();
 

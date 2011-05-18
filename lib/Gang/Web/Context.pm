@@ -2,7 +2,7 @@ package Gang::Web::Context;
 use strict;
 use warnings;
 use Class::Accessor::Lite 0.05 (
-    ro=> [qw/base_class root_class renderer request response stash/],
+    ro=> [qw/base_class root_controller renderer request response stash/],
 );
 
 sub new {
@@ -19,33 +19,33 @@ sub run_through {
 
     $route =~ m/([^#]+)\#(.*)/ or return;
 
-    my $controller = $self->base_class . "::$1";
+    my @namespaces = split '::', $1;
     my $action     = $2;
 
-    if ( $controller eq $self->root_class ) {
+    my $controller = $self->base_class;
 
-        $controller->auto($self)
+    my (@pre_actions, @post_actions); 
+    for my $name ( @namespaces ) {
+        $controller .= "::$name"; 
+        
+        push @pre_actions, $controller->can('auto')
           if $controller->can('auto');
-
-        $controller->$action($self);
-
-        $controller->end($self)
+        unshift @post_actions, $controller->can('end')
           if $controller->can('end');
+
     }
-    else {
-        $self->root_class->auto($self)
-          if $self->root_class->can('auto');
 
-        $controller->auto($self)
-          if $controller->can('auto');
+    if ( $controller ne $self->root_controller ) {
+        push @pre_actions, $self->root_controller->can('auto')
+          if $self->root_controller->can('auto');
+        unshift @post_actions, $self->root_controller->can('end')
+          if $self->root_controller->can('end');
+    }
 
-        $controller->$action($self);
-
-        $controller->end($self)
-          if $controller->can('end');
-
-        $self->root_class->end($self)
-          if $self->root_class->can('end');
+    my $main_action = $controller->can($action);
+    
+    for my $action ( @pre_actions, $main_action, @post_actions ) {
+        $action->( undef, $self);
     }
 
 }
