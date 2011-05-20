@@ -47,8 +47,6 @@ sub list {
         query_cache    => 'no',
     );
 
-    warn $uri;
-    
     my $data = JSON::decode_json( $self->get($uri)->content );
  
     my ($count, $column_infos_ref, @values_list) = @{ $data->[1]->[0] };
@@ -90,6 +88,16 @@ sub lookup_by_key {
     return {%columns};
 }
 
+sub info {
+    my ( $self, $table ) = @_;
+
+    my $uri = $self->_uri("select");
+    $uri->query_form( table => $table );
+
+    my $data = JSON::decode_json( $self->get($uri)->content );
+
+}
+
 sub get {
     my ($self, $uri) = @_;
 
@@ -112,22 +120,6 @@ sub _uri {
     return URI->new("http://$self->{host}:$self->{port}/d/$cmd");
 }
 
-### stolen from FrePAN::FTS.pm
-sub make_query {
-    my ( $self, $query ) = @_;
-
-    my $ret = '';
-    for my $part (split /\s+/, $query) {
-        if ($part =~ s/^-//) {
-            $ret .= qq{ - "$part"} if $ret;
-        } else {
-            $ret .= qq{ + } if $ret;
-            $ret .= qq{"$part"};
-        }
-    }
-    warn "QUERY IS: $ret";
-    return $ret;
-}
 
 1;
 

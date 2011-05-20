@@ -1,0 +1,8 @@
+: cascade base
+: override content -> {
+
+: include "admin/keyword/_keyword.tx";
+
+: include "_pager.tx";
+
+: }

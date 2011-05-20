@@ -1,26 +1,44 @@
 package Gang::Web::Controller::Admin::Keyword;
 use strict;
 use warnings;
+use Gang::Model::Keyword;
 
 sub auto {
     my ( $class, $c ) = @_;
     $c->stash->{title} = 'Keyword';
 }
 
+sub get_index {
+    my ( $class, $c ) = @_;
+
+    $c->res->redirect( $c->req->request_uri . "list" );
+}
+
+sub get_create {
+    my ( $class, $c ) = @_;
+
+    $c->stash->{template} = 'admin/keyword/create.tx';
+}
+
+
 sub get_list {
     my ( $class, $c ) = @_;
 
     $c->stash->{title} .= ' List';
     $c->stash->{name} = 'hoge';
-    $c->res->body('hoge');
+    $c->stash->{template} = 'admin/keyword/list.tx';
 }
 
-sub get_show {
+sub get_create {
     my ( $class, $c ) = @_;
 
-    $c->stash->{title} .= ' Show';
-    $c->stash->{template} = 'article/show.tx';
+    $c->stash->{title} .= ' Create';
+    $c->stash->{table} = 'Keyword';
+    $c->stash->{columns} = Gang::Model::Keyword->columns;
+    $c->stash->{type_of} = Gang::Model::Keyword->type_of;
+    $c->stash->{template} = 'admin/keyword/create.tx';
 }
+
 
 sub post_create {
     my ( $class, $c ) = @_;

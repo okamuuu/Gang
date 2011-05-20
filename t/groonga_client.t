@@ -76,6 +76,17 @@ subtest 'match search in title and content' => sub {
 
 };
 
+subtest 'get keyword schema info' => sub {
+
+    my $info = $client->info('Keyword'); 
+
+    use Data::Dumper;
+
+    warn Dumper $info->[1]->[0]->[1];
+
+    ok(1);
+};
+
 
 done_testing;
 

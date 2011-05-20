@@ -21,12 +21,12 @@ sub app {
         my $req = Plack::Request->new($env);
         
         my $context = Gang::Web::Context->new(
-            base_class => 'Gang::Web::Controller',
+            base_controller => 'Gang::Web::Controller',
             root_controller => 'Gang::Web::Controller::Root',
-            renderer => Gang::Unit::TX->new,
-            request  => $req,
-            response => $req->new_response(200),
-            stash    => {},
+            renderer        => Gang::Unit::TX->new,
+            request         => $req,
+            response        => $req->new_response(200),
+            stash           => {},
         );
 
         try {    

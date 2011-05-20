@@ -1,0 +1,25 @@
+<section>
+
+<h1><: $table :></h1>
+
+<table>
+
+: for $columns -> $column {
+: if ( $column == '_id' or $column == 'created_at' or $column == 'updated_at' ) { next; }
+    <tr>
+        <th><: $column :></th> 
+        <td class="<: $type_of[$column] :>">
+
+: if ( $type_of[$column] == 'ShortText' ) {
+        <input name="<: $column :>"type="text"></td>
+: } else if ( $type_of[$column] == 'Bool' ) {
+        <input name="<: $column :>" type="radio" value="1" /> YES
+        <input name="<: $column :>" type="radio" value="0" /> NO
+: }
+        </td> 
+    </tr>
+: }
+
+</table>  
+
+</section>

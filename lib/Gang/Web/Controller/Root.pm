@@ -19,6 +19,10 @@ sub post_index {
 sub end {
     my ( $class, $c ) = @_;
 
+    warn $c->res->status;
+
+    if ( $c->res->status == 301 ) { return; }
+
     if ( $c->stash->{template} ) { 
         my $content = $c->renderer->render($c->stash->{template}, $c->stash );  
         $c->res->body($content);

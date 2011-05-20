@@ -21,6 +21,10 @@ post '/article/update' => sub { 'Article#post_update' };
 
 post '/article/delete' => sub { 'Article#post_delete' }; 
 
+get '/admin/keyword/' => sub { 'Admin::Keyword#get_index' }; 
+
+get '/admin/keyword/create' => sub { 'Admin::Keyword#get_create' }; 
+
 get '/admin/keyword/list' => sub { 'Admin::Keyword#get_list' }; 
 
 1;

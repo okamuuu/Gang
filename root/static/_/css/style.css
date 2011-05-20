@@ -208,7 +208,25 @@ article ul.links li.noStar:before {content: "";}
 
 article figure {float: right; position: relative; margin: 0 -25% 12px 12px;}
 article figure img {display: block; background: #fff; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;}
-        
+
+table {
+    width: 100%;
+    border: 1px #E3E3E3 solid;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+th, td {
+    padding: 5px;
+    border: #E3E3E3 solid;
+    border-width: 0 0 1px 1px;
+    background: #F5F5F5;
+    line-height: 120%;
+    text-align: center;
+}
+td {
+    text-align: center;
+}
 
 @media screen and (max-width: 992px) {
     article figure {

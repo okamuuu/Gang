@@ -2,7 +2,7 @@ package Gang::Web::Context;
 use strict;
 use warnings;
 use Class::Accessor::Lite 0.05 (
-    ro=> [qw/base_class root_controller renderer request response stash/],
+    ro=> [qw/base_controller root_controller renderer request response stash/],
 );
 
 sub new {
@@ -22,7 +22,7 @@ sub run_through {
     my @namespaces = split '::', $1;
     my $action     = $2;
 
-    my $controller = $self->base_class;
+    my $controller = $self->base_controller;
 
     my (@pre_actions, @post_actions); 
     for my $name ( @namespaces ) {
