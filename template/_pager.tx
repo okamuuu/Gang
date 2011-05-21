@@ -1,4 +1,10 @@
 <ul class="pager clearfix">
+: if ( $pager.pages_in_navigation != '1E0' ) {
+    <li><: $pager.pages_in_navigation :></li>
+:   for [$pager.pages_in_navigation] -> $page {
+    <li><a href="?page=<: $page :>"><: $page :></a></li>
+:   }
+: }
     <li class="prev"><a href="#">PREV</a></li>
     <li><a href="#">1</a></li>
     <li class="current">2</li>
@@ -7,3 +13,4 @@
     <li><a href="#">5</a></li>
     <li class="next"><a href="#">NEXT</a></li>
 </ul>
+

@@ -1,0 +1,28 @@
+<section>
+
+<h1><: $table :></h1>
+            
+<a href="/admin/<: $table :>/create">create</a>
+
+<table>
+    <tr>
+: for $columns -> $column { 
+        <th><: $column :></th> 
+: }
+        <th></th>
+    </tr>
+: for $rows -> $row {
+    <tr>
+:     for $columns -> $column { 
+        <td><: $row[$column] :></td> 
+:     }
+        <td>
+            <a href="/admin/<: $table :>/show/<: $row._id :>">show</a>
+            <a href="/admin/<: $table :>/edit/<: $row._id :>">edit</a>
+            <a href="/admin/<: $table :>/delete/<: $row._id :>">delete</a>
+        </td>
+    </tr>
+: }
+</table>  
+
+</section>

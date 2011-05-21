@@ -19,16 +19,15 @@ sub post_index {
 sub end {
     my ( $class, $c ) = @_;
 
-    warn $c->res->status;
-
     if ( $c->res->status == 301 ) { return; }
 
-    if ( $c->stash->{template} ) { 
-        my $content = $c->renderer->render($c->stash->{template}, $c->stash );  
+    if ( $c->stash->{template} ) {
+        ### XXX: Template内部で$c->req->uri_withとかする為なのだがイマイチかも...
+        my $content = $c->renderer->render( $c->stash->{template},
+            { %{ $c->stash }, c => $c } );
+
         $c->res->body($content);
-    }   
-
-
+    }
 }
 
 1;

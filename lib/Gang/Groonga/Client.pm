@@ -3,16 +3,24 @@ use strict;
 use warnings;
 use Carp ();
 use JSON ();
-use Data::Page;
+use Data::Page::Navigation;
 use LWP::UserAgent;
 use Class::Accessor::Lite 0.05 (
     ro  => [qw/ua port host/]
 );
 
 sub new {
-    my ($class, %params) = @_;
-    $params{ua} ||= LWP::UserAgent->new();
-    bless {%params}, $class; 
+    my ( $class, %params ) = @_;
+    
+    my $ua   = $params{ua}   || LWP::UserAgent->new();
+    my $port = $params{port} || 10041;
+    my $host = $params{host} || 'localhost';
+    
+    bless {
+        ua   => $ua,
+        port => $port,
+        host => $host,
+    }, $class;
 }
 
 sub get_status {
@@ -48,8 +56,10 @@ sub list {
     );
 
     my $data = JSON::decode_json( $self->get($uri)->content );
- 
-    my ($count, $column_infos_ref, @values_list) = @{ $data->[1]->[0] };
+
+    ### countがなんか深いぞ？
+    my ($count_ref, $column_infos_ref, @values_list) = @{ $data->[1]->[0] };
+    my $count = @{ $count_ref };
     my @column_names = map { $_->[0] } @{ $column_infos_ref };
 
     ### XXX: 美しくない><

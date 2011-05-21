@@ -2,6 +2,7 @@ package Gang::Web::Controller::Admin::Keyword;
 use strict;
 use warnings;
 use Gang::Model::Keyword;
+use Gang::Groonga::Client;
 
 sub auto {
     my ( $class, $c ) = @_;
@@ -14,18 +15,20 @@ sub get_index {
     $c->res->redirect( $c->req->request_uri . "list" );
 }
 
-sub get_create {
-    my ( $class, $c ) = @_;
-
-    $c->stash->{template} = 'admin/keyword/create.tx';
-}
-
-
 sub get_list {
     my ( $class, $c ) = @_;
 
+    my $result = Gang::Groonga::Client->new->list('Keyword');
+
+    use Data::Dumper;
+    warn Dumper $result->{pager};
+    warn $result->{pager}->pages_in_navigation;
+
     $c->stash->{title} .= ' List';
-    $c->stash->{name} = 'hoge';
+    $c->stash->{table} .= 'Keyword';
+    $c->stash->{columns} = Gang::Model::Keyword->columns;
+    $c->stash->{rows}   = $result->{rows};
+    $c->stash->{pager}  = $result->{pager};
     $c->stash->{template} = 'admin/keyword/list.tx';
 }
 
