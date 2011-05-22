@@ -17,9 +17,9 @@
         <td><: $row[$column] :></td> 
 :     }
         <td>
-            <a href="/admin/<: $table :>/show/<: $row._id :>">show</a>
-            <a href="/admin/<: $table :>/edit/<: $row._id :>">edit</a>
-            <a href="/admin/<: $table :>/delete/<: $row._id :>">delete</a>
+            <a href="/admin/<: $table :>/show/<: $row._key :>">show</a>
+            <a href="/admin/<: $table :>/edit/<: $row._key :>">edit</a>
+            <a href="/admin/<: $table :>/delete/<: $row._key :>">delete</a>
         </td>
     </tr>
 : }

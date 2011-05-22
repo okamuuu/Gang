@@ -23,7 +23,7 @@ post '/article/delete' => sub { 'Article#post_delete' };
 
 get '/admin/keyword/' => sub { 'Admin::Keyword#get_index' }; 
 
-get '/admin/keyword/show/:id' => sub { 'Admin::Keyword#get_show' }; 
+get '/admin/keyword/show/*' => sub { 'Admin::Keyword#get_show' }; 
 
 get '/admin/keyword/create' => sub { 'Admin::Keyword#get_create' }; 
 

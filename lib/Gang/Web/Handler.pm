@@ -16,13 +16,7 @@ sub app {
     return sub {
         my $env = shift;
 
-        use Data::Dumper;
-        warn Dumper $env;
-
-
         my $matched_route = $router->match($env) or return $class->handle_404;
-
-        warn Dumper $matched_route;
 
         my $req = Plack::Request->new($env);
         

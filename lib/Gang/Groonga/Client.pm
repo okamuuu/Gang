@@ -81,7 +81,7 @@ sub list {
     };
 }
 
-sub lookup_by_key {
+sub lookup {
     my ( $self, $table, $key ) = @_;
 
     my $uri = $self->_uri("select");

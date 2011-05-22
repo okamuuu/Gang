@@ -21,7 +21,7 @@ sub run_through {
 
     my @namespaces = split '::', $1;
     my $action     = $2;
-    my @captures   = @{ $route->{capture} };
+    my @splats     = $route->{splat} ? @{ $route->{splat} } : ();
 
     my $controller = $self->base_controller;
 
@@ -46,7 +46,7 @@ sub run_through {
     my $main_action = $controller->can($action);
     
     for my $action ( @pre_actions, $main_action, @post_actions ) {
-        $action->( undef, $self);
+        $action->( undef, $self, @splats); ### XXX: main_actionにだけ@splats渡したい
     }
 
 }

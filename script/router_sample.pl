@@ -4,7 +4,7 @@ use Router::Simple;
 use Data::Dumper;
 
 my $router = Router::Simple->new();
-$router->connect( '/blog/{year}/{month}',
+$router->connect( '/blog/*/*',
     { controller => 'Blog', action => 'monthly' } );
 
 my $env = {

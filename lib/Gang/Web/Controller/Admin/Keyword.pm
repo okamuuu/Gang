@@ -20,12 +20,8 @@ sub get_list {
 
     my $result = Gang::Groonga::Client->new->list('Keyword');
 
-    use Data::Dumper;
-    warn Dumper $result->{pager};
-    warn $result->{pager}->pages_in_navigation;
-
     $c->stash->{title} .= ' List';
-    $c->stash->{table} .= 'Keyword';
+    $c->stash->{table} .= 'keyword';
     $c->stash->{columns} = Gang::Model::Keyword->columns;
     $c->stash->{rows}   = $result->{rows};
     $c->stash->{pager}  = $result->{pager};
@@ -33,10 +29,15 @@ sub get_list {
 }
 
 sub get_show {
-    my ( $class, $c ) = @_;
-    
-    warn 'hoge';
-#    $c->stash->{template} = 'admin/keyword/show.tx';
+    my ( $class, $c, $key ) = @_;
+
+    my $row = Gang::Groonga::Client->new->lookup('Keyword', $key);
+    use Data::Dumper;
+
+    warn Dumper $row;
+
+    $c->stash->{row} = $row;
+    $c->stash->{template} = 'admin/keyword/show.tx';
 }
 
 
