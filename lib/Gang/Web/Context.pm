@@ -17,10 +17,11 @@ sub req { shift->request(@_); }
 sub run_through {
     my ( $self, $route ) = @_;
 
-    $route =~ m/([^#]+)\#(.*)/ or return;
+    $route->{code}->() =~ m/([^#]+)\#(.*)/ or return;
 
     my @namespaces = split '::', $1;
     my $action     = $2;
+    my @captures   = @{ $route->{capture} };
 
     my $controller = $self->base_controller;
 

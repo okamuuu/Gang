@@ -32,6 +32,14 @@ sub get_list {
     $c->stash->{template} = 'admin/keyword/list.tx';
 }
 
+sub get_show {
+    my ( $class, $c ) = @_;
+    
+    warn 'hoge';
+#    $c->stash->{template} = 'admin/keyword/show.tx';
+}
+
+
 sub get_create {
     my ( $class, $c ) = @_;
 
