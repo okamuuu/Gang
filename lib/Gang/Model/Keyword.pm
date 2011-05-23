@@ -1,29 +1,22 @@
 package Gang::Model::Keyword;
 use strict;
 use warnings;
+use Class::Accessor::Lite 0.05 (
+    new => 1,
+    ro  => [qw/_id _key name display_fg/],
+);
 
-my (@COLUMNS, %TYPE_OF);
+sub columns { return [qw/_id _key name display_fg/] }
 
-BEGIN {
-    @COLUMNS = qw/_id _key name display_fg/;
-
-    %TYPE_OF = (
-        ### TODO: データ型はHTML5に合わせよう
+sub type_of { 
+    ### TODO: データ型はHTML5に合わせよう
+    return {
         _id        => 'UInt32',
         _key       => 'ShortText',
         name       => 'ShortText',
         display_fg => 'Bool',
-    );
+    };
 }
-
-use Class::Accessor::Lite 0.05 (
-    new => 1,
-    ro  => [@COLUMNS],
-);
-
-sub columns { return [@COLUMNS]; }
-
-sub type_of { return {%TYPE_OF}; }
 
 1;
 
