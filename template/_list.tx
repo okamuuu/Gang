@@ -2,7 +2,7 @@
 
 <h1><: $table :></h1>
             
-<a href="/admin/<: $table :>/create">create</a>
+<p><a href="/admin/<: $table :>/create">create</a></p>
 
 <table>
     <tr>

@@ -1,0 +1,6 @@
+: cascade base
+: override content -> {
+
+: include "_show.tx";
+
+: }

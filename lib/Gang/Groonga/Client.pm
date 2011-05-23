@@ -91,7 +91,7 @@ sub lookup {
 
     ### 都度配列展開するので素直にテーブル毎にクラス化?
     my @names  = map { $_->[0] } @{ $data->[1]->[0]->[1] };
-    my @values = @{ $data->[1]->[0]->[2] };
+    my @values = $data->[1]->[0]->[2] ? @{ $data->[1]->[0]->[2] } : ();
 
     my %columns = map { $names[$_] => $values[$_] } ( 0 .. $#names );
 

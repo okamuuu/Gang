@@ -31,12 +31,11 @@ sub get_list {
 sub get_show {
     my ( $class, $c, $key ) = @_;
 
-    my $row = Gang::Groonga::Client->new->lookup('Keyword', $key);
-    use Data::Dumper;
+    my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
+    my $model = Gang::Model::Keyword->new( %{$row} );
 
-    warn Dumper $row;
-
-    $c->stash->{row} = $row;
+    $c->stash->{table} = 'keyword';
+    $c->stash->{model} = $model;
     $c->stash->{template} = 'admin/keyword/show.tx';
 }
 

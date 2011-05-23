@@ -1,0 +1,16 @@
+<section>
+
+<h1><: $table :></h1>
+
+<p><a href="/admin/<: $table :>/list">go to  List</a></p>
+ 
+<table>
+: for $model.columns -> $column {
+    <tr>
+        <th><: $column :></th>
+        <td><: $model[$column] :></td> 
+    </tr>
+: }
+</table>  
+
+</section>
