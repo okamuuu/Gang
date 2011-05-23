@@ -98,6 +98,26 @@ sub lookup {
     return {%columns};
 }
 
+sub create {
+    my ( $self, $table, %params ) = @_;
+
+    warn join ',', keys %params;
+
+    my $uri = $self->_uri("load");
+    $uri->query_form(
+        table      => $table,
+#        columns    => join ',', keys %params,
+#        input_type => 'json',
+        values     => JSON::encode_json({%params}),
+    );
+    
+    my $data = JSON::decode_json( $self->get($uri)->content );
+
+    use Data::Dumper;
+    warn Dumper $data;
+
+}
+
 sub info {
     my ( $self, $table ) = @_;
 

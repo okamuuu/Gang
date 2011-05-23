@@ -7,6 +7,7 @@ use Gang::Groonga::Client;
 sub auto {
     my ( $class, $c ) = @_;
     $c->stash->{title} = 'Keyword';
+    $c->stash->{table} = 'keyword';
 }
 
 sub get_index {
@@ -21,7 +22,6 @@ sub get_list {
     my $result = Gang::Groonga::Client->new->list('Keyword');
 
     $c->stash->{title} .= ' List';
-    $c->stash->{table} .= 'keyword';
     $c->stash->{columns} = Gang::Model::Keyword->columns;
     $c->stash->{rows}   = $result->{rows};
     $c->stash->{pager}  = $result->{pager};
@@ -31,32 +31,34 @@ sub get_list {
 sub get_show {
     my ( $class, $c, $key ) = @_;
 
-    my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
+    my $row = Gang::Groonga::Client->new->lookup( 'keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
 
-    $c->stash->{table} = 'keyword';
     $c->stash->{model} = $model;
     $c->stash->{template} = 'admin/keyword/show.tx';
 }
-
 
 sub get_create {
     my ( $class, $c ) = @_;
 
     $c->stash->{title} .= ' Create';
-    $c->stash->{table} = 'Keyword';
     $c->stash->{columns} = Gang::Model::Keyword->columns;
     $c->stash->{type_of} = Gang::Model::Keyword->type_of;
     $c->stash->{template} = 'admin/keyword/create.tx';
 }
 
-
 sub post_create {
     my ( $class, $c ) = @_;
 
-    my $body = '[[0,1294292470.41307,0.000532663],[[[2],[["_key","ShortText"],["name","ShortText"]],["tasukuchan","グニャラくん"],["OffGao","OffGao"]]]]';    
+    my %params = %{ $c->req->parameters };
 
-    $c->res->body($body);
+    my $model = Gang::Model::Keyword->new(%params);
+    
+    if ( $model->is_valid ) {
+        Gang::Groonga::Client->new->create('Keyword', %params);
+    }
+
+    $c->res->redirect( '/admin/keyword/list' );
 }
 
 sub post_update {

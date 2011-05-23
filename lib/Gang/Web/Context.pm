@@ -26,6 +26,7 @@ sub run_through {
     my $controller = $self->base_controller;
 
     my (@pre_actions, @post_actions); 
+    
     for my $name ( @namespaces ) {
         $controller .= "::$name"; 
         
@@ -33,7 +34,6 @@ sub run_through {
           if $controller->can('auto');
         unshift @post_actions, $controller->can('end')
           if $controller->can('end');
-
     }
 
     if ( $controller ne $self->root_controller ) {
@@ -43,8 +43,9 @@ sub run_through {
           if $self->root_controller->can('end');
     }
 
-    my $main_action = $controller->can($action);
-    
+    my $main_action = $controller->can($action)
+      or Carp::croak("Not Found $action...");
+
     for my $action ( @pre_actions, $main_action, @post_actions ) {
         $action->( undef, $self, @splats); ### XXX: main_actionにだけ@splats渡したい
     }

@@ -18,5 +18,7 @@ sub type_of {
     };
 }
 
+sub is_valid { return 1; }
+
 1;
 

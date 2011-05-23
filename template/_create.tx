@@ -2,6 +2,7 @@
 
 <h1><: $table :></h1>
 
+<form action="/admin/<: $table :>/create" method="POST">
 <table>
 
 : for $columns -> $column {
@@ -21,5 +22,7 @@
 : }
 
 </table>  
+<input type="submit" value="Create">
+</form>
 
 </section>

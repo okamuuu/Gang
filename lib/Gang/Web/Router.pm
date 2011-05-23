@@ -27,6 +27,8 @@ get '/admin/keyword/show/*' => sub { 'Admin::Keyword#get_show' };
 
 get '/admin/keyword/create' => sub { 'Admin::Keyword#get_create' }; 
 
+post '/admin/keyword/create' => sub { 'Admin::Keyword#post_create' }; 
+
 get '/admin/keyword/list' => sub { 'Admin::Keyword#get_list' }; 
 
 1;
