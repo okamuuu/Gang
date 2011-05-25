@@ -25,9 +25,11 @@ get '/admin/keyword/' => sub { 'Admin::Keyword#get_index' };
 
 get '/admin/keyword/show/*' => sub { 'Admin::Keyword#get_show' }; 
 
-get '/admin/keyword/create' => sub { 'Admin::Keyword#get_create' }; 
+get '/admin/keyword/create'  => sub { 'Admin::Keyword#get_create' };
+post '/admin/keyword/create' => sub { 'Admin::Keyword#post_create' };
 
-post '/admin/keyword/create' => sub { 'Admin::Keyword#post_create' }; 
+get '/admin/keyword/edit/*' => sub { 'Admin::Keyword#get_edit' }; 
+post '/admin/keyword/edit/*' => sub { 'Admin::Keyword#post_edit' }; 
 
 get '/admin/keyword/list' => sub { 'Admin::Keyword#get_list' }; 
 

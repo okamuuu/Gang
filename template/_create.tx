@@ -2,27 +2,42 @@
 
 <h1><: $table :></h1>
 
+: if ( $model["_id"] ) { 
+<form action="/admin/<: $table :>/edit/<: $model["_key"] :>" method="POST">
+: } else {
 <form action="/admin/<: $table :>/create" method="POST">
+: }
+
 <table>
 
 : for $columns -> $column {
-: if ( $column == '_id' or $column == 'created_at' or $column == 'updated_at' ) { next; }
+
+: if ( $column == 'created_at' or $column == 'updated_at' ) { next; }
+
+: if ( $column == '_id') {
+    <tr>
+        <th><: $column :></th> 
+        <td class="<: $type_of[$column] :>"><: $model[$column] :></td>
+    </tr>
+: ; next; }
+
     <tr>
         <th><: $column :></th> 
         <td class="<: $type_of[$column] :>">
 
 : if ( $type_of[$column] == 'ShortText' ) {
-        <input name="<: $column :>"type="text"></td>
+        <input name="<: $column :>"type="text" value="<: $model[$column]:>"></td>
 : } else if ( $type_of[$column] == 'Bool' ) {
-        <input name="<: $column :>" type="radio" value="1" /> YES
-        <input name="<: $column :>" type="radio" value="0" /> NO
+        <input name="<: $column :>" type="radio" value="1" <: ($model[$column] == 'true') ? 'checked="checked"' : '' :>/> YES
+        <input name="<: $column :>" type="radio" value="0" <: ($model[$column] == 'false') ? 'checked="checked"' : '' :>/> NO
 : }
+        <: $model[$column] :>
         </td> 
     </tr>
 : }
 
 </table>  
-<input type="submit" value="Create">
+<input type="submit" value="<: $action :>">
 </form>
 
 </section>
