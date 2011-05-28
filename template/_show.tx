@@ -5,7 +5,7 @@
 <p><a href="/admin/<: $table :>/list">go to  List</a></p>
  
 <table>
-: for $model.columns -> $column {
+: for $columns -> $column {
     <tr>
         <th><: $column :></th>
         <td><: $model[$column] :></td> 

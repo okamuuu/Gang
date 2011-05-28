@@ -122,6 +122,21 @@ sub update {
     return JSON::decode_json( $self->get($uri)->content );
 }
 
+sub delete {
+    my ( $self, $table, $key ) = @_;
+
+    my $uri = $self->_uri("delete");
+    $uri->query_form(
+        table      => $table,
+        key     => $key,
+    );
+   
+    warn $uri;
+
+    return JSON::decode_json( $self->get($uri)->content );
+}
+
+
 
 sub info {
     my ( $self, $table ) = @_;

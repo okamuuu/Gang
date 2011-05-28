@@ -31,10 +31,11 @@ sub get_list {
 sub get_show {
     my ( $class, $c, $key ) = @_;
 
-    my $row = Gang::Groonga::Client->new->lookup( 'keyword', $key );
+    my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
 
     $c->stash->{model} = $model;
+    $c->stash->{columns} = [ grep { $_ ne '_id' } Gang::Model::Keyword->columns ];
     $c->stash->{template} = 'admin/keyword/show.tx';
 }
 
@@ -68,9 +69,6 @@ sub get_edit {
     my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
 
-    use Data::Dumper;
-    warn Dumper $row;
-
     $c->stash->{title} .= ' Edit';
     $c->stash->{action} = 'edit';
     $c->stash->{model} = $model;
@@ -85,9 +83,6 @@ sub post_edit {
     my %params = %{ $c->req->parameters };
     my $model = Gang::Model::Keyword->new(%params);
 
-    use Data::Dumper;
-    warn Dumper {%params};
-
     if ( not $params{display_fg} ) {
         $params{display_fg} = 0;
     }
@@ -99,12 +94,29 @@ sub post_edit {
     $c->res->redirect( '/admin/keyword/list' );
 }
 
+sub get_delete {
+    my ( $class, $c, $key ) = @_;
+
+    my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
+    my $model = Gang::Model::Keyword->new( %{$row} );
+
+    $c->stash->{template} = 'admin/keyword/show.tx';
+    $c->stash->{title} .= ' Delete';
+    $c->stash->{action} = 'delete';
+    $c->stash->{model} = $model;
+    $c->stash->{columns} = [ grep { $_ ne '_id' } Gang::Model::Keyword->columns ];
+    $c->stash->{template} = 'admin/keyword/delete.tx';
+}
+
 sub post_delete {
-    my ( $class, $c ) = @_;
+    my ( $class, $c, $key ) = @_;
 
-    my $body = '[[0,1294292470.41307,0.000532663],[[[2],[["_key","ShortText"],["name","ShortText"]],["tasukuchan","グニャラくん"],["OffGao","OffGao"]]]]';    
+    my $result = Gang::Groonga::Client->new->delete( 'Keyword', $key );
 
-    $c->res->body($body);
+    use Data::Dumper;
+    warn Dumper $result;
+
+    $c->res->redirect( '/admin/keyword/list' );
 }
 
 sub end {

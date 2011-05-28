@@ -31,6 +31,9 @@ post '/admin/keyword/create' => sub { 'Admin::Keyword#post_create' };
 get '/admin/keyword/edit/*' => sub { 'Admin::Keyword#get_edit' }; 
 post '/admin/keyword/edit/*' => sub { 'Admin::Keyword#post_edit' }; 
 
+get '/admin/keyword/delete/*' => sub { 'Admin::Keyword#get_delete' }; 
+post '/admin/keyword/delete/*' => sub { 'Admin::Keyword#post_delete' }; 
+
 get '/admin/keyword/list' => sub { 'Admin::Keyword#get_list' }; 
 
 1;
