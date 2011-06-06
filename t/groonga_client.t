@@ -20,8 +20,8 @@ subtest 'request groonga server status' => sub {
     ok ( $data->[1]->{"version"} ge "1.0.6" ), 'version check.';
 };
 
-subtest 'lookup article by _key' => sub {
-    my $data = $client->lookup_by_key('Article', 20110401000000);
+subtest 'lookup article' => sub {
+    my $data = $client->lookup('Article', 20110401000000);
     is $data->{_id}, 1;
 };
 
@@ -29,8 +29,11 @@ subtest 'list article' => sub {
     
     my $data = $client->list('Article');
 
+    use Data::Dumper;
+    warn Dumper $data->{pager}->total_entries;
+
     isa_ok( $data->{pager}, 'Data::Page' );
-    is( $data->{pager}->total_entries->[0], 20 );
+    is( $data->{pager}->total_entries, 20 );
     is(scalar @{ $data->{rows} } , 10 );
 
 };
@@ -40,7 +43,7 @@ subtest 'match search in title' => sub {
     my $data = $client->list('Article', { match_columns=>'title', query => 'はじまります' });
 
     isa_ok( $data->{pager}, 'Data::Page' );
-    is( $data->{pager}->total_entries->[0], 2 );
+    is( $data->{pager}->total_entries, 2 );
     is(scalar @{ $data->{rows} } , 2 );
 
 };
@@ -50,7 +53,7 @@ subtest 'match search in keywords' => sub {
     my $data = $client->list('Article', { match_columns=>'keywords', query => 'Basic' });
 
     isa_ok( $data->{pager}, 'Data::Page' );
-    is( $data->{pager}->total_entries->[0], 10 );
+    is( $data->{pager}->total_entries, 10 );
     is(scalar @{ $data->{rows} } , 10 );
 
 };
@@ -60,7 +63,7 @@ subtest 'match search in content' => sub {
     my $data = $client->list('Article', { match_columns=>'content', query => 'ぐる' });
 
     isa_ok( $data->{pager}, 'Data::Page' );
-    is( $data->{pager}->total_entries->[0], 11 );
+    is( $data->{pager}->total_entries, 11 );
     is(scalar @{ $data->{rows} } , 10 );
 
 };
@@ -71,7 +74,7 @@ subtest 'match search in title and content' => sub {
     my $data = $client->list('Article', { match_columns=> 'title || content', query => 'Groonga1' });
 
     isa_ok( $data->{pager}, 'Data::Page' );
-    is( $data->{pager}->total_entries->[0], 2 );
+    is( $data->{pager}->total_entries, 2 );
     is(scalar @{ $data->{rows} } , 2 );
 
 };
@@ -79,10 +82,6 @@ subtest 'match search in title and content' => sub {
 subtest 'get keyword schema info' => sub {
 
     my $info = $client->info('Keyword'); 
-
-    use Data::Dumper;
-
-    warn Dumper $info->[1]->[0]->[1];
 
     ok(1);
 };

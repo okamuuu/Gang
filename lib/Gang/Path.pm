@@ -6,7 +6,7 @@ use File::Temp ();
 use Path::Class ();
 
 sub grn_schema_file {
-    Path::Class::File->new( Cwd::cwd, 'groonga', 'schema', 'gang.grn' );  
+    Path::Class::File->new( Cwd::cwd, 'groonga', 'schema.grn' );  
 }
 
 sub grn_test_file_of {

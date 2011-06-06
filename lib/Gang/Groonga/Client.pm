@@ -57,9 +57,10 @@ sub list {
 
     my $data = JSON::decode_json( $self->get($uri)->content );
 
-    ### countがなんか深いぞ？
     my ($count_ref, $column_infos_ref, @values_list) = @{ $data->[1]->[0] };
-    my $count = @{ $count_ref };
+
+    ### countがなんか深いぞ？
+    my $count = $count_ref->[0];
     my @column_names = map { $_->[0] } @{ $column_infos_ref };
 
     ### XXX: 美しくない><
@@ -69,7 +70,7 @@ sub list {
           { map { $column_names[$_] => $values_ref->[$_] }
               ( 0 .. $#column_names ) };
     }
- 
+
     my $pager = Data::Page->new();
     $pager->total_entries($count);
     $pager->entries_per_page($rows);
@@ -127,16 +128,12 @@ sub delete {
 
     my $uri = $self->_uri("delete");
     $uri->query_form(
-        table      => $table,
-        key     => $key,
+        table => $table,
+        key   => $key,
     );
-   
-    warn $uri;
 
     return JSON::decode_json( $self->get($uri)->content );
 }
-
-
 
 sub info {
     my ( $self, $table ) = @_;
@@ -169,7 +166,6 @@ sub _uri {
     
     return URI->new("http://$self->{host}:$self->{port}/d/$cmd");
 }
-
 
 1;
 
