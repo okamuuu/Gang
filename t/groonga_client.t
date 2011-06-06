@@ -83,8 +83,38 @@ subtest 'get keyword schema info' => sub {
 
     my $info = $client->info('Keyword'); 
 
+    use Data::Dumper;
+    warn Dumper $info;
+
     ok(1);
 };
+
+subtest 'load ' => sub {
+
+    my %params = (
+        '_key'       => 'hoge',
+        'name'       => 'fuga',
+        'display_fg' => '1',
+    );
+
+    my $info = $client->load('Keyword', %params); 
+
+    is $info->[0]->[0], 0;
+};
+
+subtest 'load ' => sub {
+
+    my %params = (
+        '_key'       => 'hoge',
+        'name'       => 'fuga',
+        'display_fg' => '1',
+    );
+
+    my $info = $client->load('Keyword', %params); 
+
+    is $info->[0]->[0], 0;
+};
+
 
 
 done_testing;
