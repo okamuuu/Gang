@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use t::TestUtils;
 use Test::More;
+use Test::Exception;
+use Data::Dumper;
 
 BEGIN { use_ok 'Gang::Groonga::Client' }
    
@@ -29,13 +31,9 @@ subtest 'list article' => sub {
     
     my $data = $client->list('Article');
 
-    use Data::Dumper;
-    warn Dumper $data->{pager}->total_entries;
-
     isa_ok( $data->{pager}, 'Data::Page' );
     is( $data->{pager}->total_entries, 20 );
     is(scalar @{ $data->{rows} } , 10 );
-
 };
 
 subtest 'match search in title' => sub {
@@ -91,29 +89,59 @@ subtest 'get keyword schema info' => sub {
 
 subtest 'load ' => sub {
 
-    my %params = (
-        '_key'       => 'hoge',
-        'name'       => 'fuga',
-        'display_fg' => '1',
+    my $info = $client->load(
+        'Keyword',
+        {
+            '_key'       => 'hoge',
+            'name'       => 'fuga',
+            'display_fg' => '1',
+        }
     );
-
-    my $info = $client->load('Keyword', %params); 
 
     is $info->[0]->[0], 0;
 };
 
-subtest 'load ' => sub {
+subtest 'update' => sub {
 
-    my %params = (
-        '_key'       => 'hoge',
-        'name'       => 'fuga',
-        'display_fg' => '1',
+    my $info = $client->update(
+        'Keyword',
+        {
+            '_key'       => 'hoge',
+            'name'       => 'fuga',
+            'display_fg' => '0',
+        }
     );
 
-    my $info = $client->load('Keyword', %params); 
-
     is $info->[0]->[0], 0;
+
+    my $info2 = $client->update(
+        'Keyword',
+        {
+            '_key'       => 'hoge',
+            'name'       => 'fuga2',
+            'display_fg' => '0',
+        }
+    );
+
+    is $info2->[0]->[0], 0;
 };
+
+subtest 'create' => sub {
+
+    $client->create( 'Article', { _key => 'hogehogehoge', title => 'hoge' } );
+    throws_ok(
+        sub { $client->create(
+            'Article', { _key => 'hogehogehoge', title => 'hoge' }
+        ) },
+        qr/\.\.\./,
+    );
+
+    my $data = $client->lookup( 'Article', 'hogehogehoge' );
+
+    warn Dumper $data;
+    ok(1);
+};
+
 
 
 
