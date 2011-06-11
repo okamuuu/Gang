@@ -10,13 +10,14 @@ use Class::Accessor::Lite 0.05 (
 );
 
 sub new {
-    my ( $class, %params ) = @_;
+    my $class = shift;
+    my %args = @_ == 1 ? %{ $_[0] } : @_;
+
+    my $ua   = $args{ua}   || LWP::UserAgent->new();
+    my $port = $args{port} || 10041;
+    my $host = $args{host} || 'localhost';
     
-    my $ua   = $params{ua}   || LWP::UserAgent->new();
-    my $port = $params{port} || 10041;
-    my $host = $params{host} || 'localhost';
-    
-    bless {
+    return bless {
         ua   => $ua,
         port => $port,
         host => $host,
@@ -27,7 +28,7 @@ sub get_status {
     my $self = shift;
 
     my $uri = $self->_uri("status");
-    my $res = $self->get( $uri );
+    my $res = $self->_get( $uri );
 
     Carp::croak("Groonga server has gone...") unless $res->is_success;
 
@@ -55,7 +56,7 @@ sub list {
         query_cache    => 'no',
     );
 
-    my $data = JSON::decode_json( $self->get($uri)->content );
+    my $data = JSON::decode_json( $self->_get($uri)->content );
 
     my ($count_ref, $column_infos_ref, @values_list) = @{ $data->[1]->[0] };
 
@@ -88,7 +89,7 @@ sub lookup {
     my $uri = $self->_uri("select");
     $uri->query_form( table => $table, query => "_key:$key" );
 
-    my $data = JSON::decode_json( $self->get($uri)->content );
+    my $data = JSON::decode_json( $self->_get($uri)->content );
 
     ### 都度配列展開するので素直にテーブル毎にクラス化?
     my @names  = map { $_->[0] } @{ $data->[1]->[0]->[1] };
@@ -99,28 +100,46 @@ sub lookup {
     return {%columns};
 }
 
-sub create {
-    my ( $self, $table, %params ) = @_;
+sub load {
+    my ( $self, $table, $params_ref ) = @_;
 
     my $uri = $self->_uri("load");
     $uri->query_form(
         table      => $table,
-        values     => JSON::encode_json({%params}),
+        values     => JSON::encode_json($params_ref),
     );
     
-    return JSON::decode_json( $self->get($uri)->content );
+    return JSON::decode_json( $self->_get($uri)->content );
 }
 
-sub update {
-    my ( $self, $table, %params ) = @_;
+sub create {
+    my ( $self, $table, $params_ref ) = @_;
 
     my $uri = $self->_uri("load");
     $uri->query_form(
         table      => $table,
-        values     => JSON::encode_json({%params}),
+        ifexists   => 0,
+        values     => JSON::encode_json($params_ref),
     );
     
-    return JSON::decode_json( $self->get($uri)->content );
+    ### insertした件数が0の場合はdie: column _key is not unique   
+    my $data = JSON::decode_json( $self->_get($uri)->content );
+    
+    ### $data->[1] is created row count by this action.  
+    Carp::croak("column _key is not unique...") if not $data->[1];
+}
+
+sub update { 
+    my ( $self, $table, $params_ref ) = @_;
+
+    my $uri = $self->_uri("load");
+    $uri->query_form(
+        table      => $table,
+        ifexists   => 0,
+        values     => JSON::encode_json($params_ref),
+    );
+   
+    return JSON::decode_json( $self->_get($uri)->content );
 }
 
 sub delete {
@@ -132,7 +151,7 @@ sub delete {
         key   => $key,
     );
 
-    return JSON::decode_json( $self->get($uri)->content );
+    return JSON::decode_json( $self->_get($uri)->content );
 }
 
 sub info {
@@ -141,11 +160,11 @@ sub info {
     my $uri = $self->_uri("select");
     $uri->query_form( table => $table );
 
-    my $data = JSON::decode_json( $self->get($uri)->content );
+    my $data = JSON::decode_json( $self->_get($uri)->content );
 
 }
 
-sub get {
+sub _get {
     my ($self, $uri) = @_;
 
     my $res = $self->ua->get($uri);
