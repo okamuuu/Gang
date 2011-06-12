@@ -55,7 +55,10 @@ sub post_create {
     my %params = %{ $c->req->parameters };
 
     my $model = Gang::Model::Keyword->new(%params);
-    
+
+    use Data::Dumper;
+    warn Dumper \%params;
+
     if ( $model->is_valid ) {
         Gang::Groonga::Client->new->create('Keyword', %params);
     }
