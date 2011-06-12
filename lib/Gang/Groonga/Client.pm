@@ -135,7 +135,6 @@ sub update {
     my $uri = $self->_uri("load");
     $uri->query_form(
         table      => $table,
-        ifexists   => 0,
         values     => JSON::encode_json($params_ref),
     );
    

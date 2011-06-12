@@ -79,12 +79,14 @@ subtest 'match search in title and content' => sub {
 
 subtest 'get keyword schema info' => sub {
 
-    my $info = $client->info('Keyword'); 
-
-    use Data::Dumper;
-    warn Dumper $info;
-
-    ok(1);
+    my $info = $client->info('Keyword');
+    is_deeply $info->[1]->[0]->[1],
+      [
+        [ '_id',        'UInt32' ],
+        [ '_key',       'ShortText' ],
+        [ 'name',       'ShortText' ],
+        [ 'display_fg', 'Bool' ]
+      ];
 };
 
 subtest 'load ' => sub {
@@ -126,24 +128,49 @@ subtest 'update' => sub {
     is $info2->[0]->[0], 0;
 };
 
+subtest 'create new row when updating not exists row.' => sub {
+
+    my $info = $client->update(
+        'Keyword',
+        {
+            '_key'       => 'hogeeeeeeeeeee',
+            'name'       => 'fuga',
+            'display_fg' => '0',
+        }
+    );
+
+    is $info->[1], 1;
+};
+
 subtest 'create' => sub {
 
     $client->create( 'Article', { _key => 'hogehogehoge', title => 'hoge' } );
+    
+    my $data = $client->lookup( 'Article', 'hogehogehoge' );
+
+    is_deeply $data,
+      {
+        'published_at' => '0',
+        '_id'          => 21,
+        '_key'         => 'hogehogehoge',
+        'display_fg'   => bless( do { \( my $o = 0 ) }, 'JSON::XS::Boolean' ),
+        'content'      => '',
+        'keywords'     => [],
+        'created_at'   => '0',
+        'updated_at'   => '0',
+        'title'        => 'hoge'
+      };
+};
+
+subtest 'thorws_ok when creating exists row.' => sub {
+
     throws_ok(
         sub { $client->create(
             'Article', { _key => 'hogehogehoge', title => 'hoge' }
         ) },
         qr/\.\.\./,
     );
-
-    my $data = $client->lookup( 'Article', 'hogehogehoge' );
-
-    warn Dumper $data;
-    ok(1);
 };
-
-
-
 
 done_testing;
 
