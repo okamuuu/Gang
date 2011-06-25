@@ -9,12 +9,14 @@ use Class::Accessor::Lite 0.05 (
     ro  => [qw/ua port host/]
 );
 
+our $PORT = 10041;
+
 sub new {
     my $class = shift;
     my %args = @_ == 1 ? %{ $_[0] } : @_;
 
     my $ua   = $args{ua}   || LWP::UserAgent->new();
-    my $port = $args{port} || 10041;
+    my $port = $args{port} || $PORT;
     my $host = $args{host} || 'localhost';
     
     return bless {

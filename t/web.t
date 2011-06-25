@@ -2,24 +2,29 @@ package main;
 use strict;
 use warnings;
 use Gang::Path;
+use Gang::Groonga::Client;
 use Test::Most;
 use Test::Groonga;
 use Plack::Test;
 use JSON;
-
 use HTTP::Request::Common qw/GET POST/;
 
-my $server = Test::Groonga->create(
-    protocol => 'http',
-    preload  => Gang::Path->grn_schema_file
-);
+my $server;
 
-ok $server , 'Test::TCP';
+subtest 'create Test::TCP instance as a temporary groonga server.' => sub {
 
-sleep 10;
+    $server = Test::Groonga->create(
+        protocol => 'http',
+        preload  => Gang::Path->grn_schema_file
+    );
+
+    ok $server , 'Test::TCP';
+
+    note 'Gang::Groonga::Client required groonga server port.';
+    $Gang::Groonga::Client::PORT = $server->port;
+};
 
 use_ok "Gang::Web::Handler";
-
 my $app = Gang::Web::Handler->app;
 
 test_psgi $app, sub {
