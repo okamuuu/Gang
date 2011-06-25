@@ -1,11 +1,22 @@
 package main;
 use strict;
 use warnings;
+use Gang::Path;
 use Test::Most;
+use Test::Groonga;
 use Plack::Test;
 use JSON;
 
 use HTTP::Request::Common qw/GET POST/;
+
+my $server = Test::Groonga->create(
+    protocol => 'http',
+    preload  => Gang::Path->grn_schema_file
+);
+
+ok $server , 'Test::TCP';
+
+sleep 10;
 
 use_ok "Gang::Web::Handler";
 

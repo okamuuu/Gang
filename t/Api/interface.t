@@ -25,7 +25,7 @@ subtest 'Public' => sub {
 
     subtest 'listing keyword' => sub {
         my $api = Gang::Api::Public->new;
-        ok $api->lookup_article();
+        ok $api->lookup_keyword();
     };
 };
 
