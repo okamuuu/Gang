@@ -133,14 +133,15 @@ sub create {
 
 sub update { 
     my ( $self, $table, $params_ref ) = @_;
-
+   
     my $uri = $self->_uri("load");
     $uri->query_form(
         table      => $table,
         values     => JSON::encode_json($params_ref),
     );
    
-    return JSON::decode_json( $self->_get($uri)->content );
+    my $result =  JSON::decode_json( $self->_get($uri)->content );
+    return $result;
 }
 
 sub delete {

@@ -21,17 +21,27 @@
     </tr>
 : ; next; }
 
+: if ( $column == '_key' && $model["_id"] ) {
+    <tr>
+        <th><: $column :></th> 
+        <td class="<: $type_of[$column] :>">
+            <: $model[$column] :>
+            <input name="<: $column :>" type="hidden" value="<: $model[$column]:>"></td>
+        </td>
+    </tr>
+: ; next; }
+
+
     <tr>
         <th><: $column :></th> 
         <td class="<: $type_of[$column] :>">
 
 : if ( $type_of[$column] == 'ShortText' ) {
-        <input name="<: $column :>"type="text" value="<: $model[$column]:>"></td>
+        <input name="<: $column :>" type="text" value="<: $model[$column]:>"></td>
 : } else if ( $type_of[$column] == 'Bool' ) {
         <input name="<: $column :>" type="radio" value="1" <: ($model[$column] == 'true') ? 'checked="checked"' : '' :>/> YES
         <input name="<: $column :>" type="radio" value="0" <: ($model[$column] == 'false') ? 'checked="checked"' : '' :>/> NO
 : }
-        <: $model[$column] :>
         </td> 
     </tr>
 : }

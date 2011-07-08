@@ -35,7 +35,7 @@ sub get_show {
     my $model = Gang::Model::Keyword->new( %{$row} );
 
     $c->stash->{model} = $model;
-    $c->stash->{columns} = [ grep { $_ ne '_id' } Gang::Model::Keyword->columns ];
+    $c->stash->{columns} = [ Gang::Model::Keyword->columns ];
     $c->stash->{template} = 'admin/keyword/show.tx';
 }
 
@@ -56,11 +56,8 @@ sub post_create {
 
     my $model = Gang::Model::Keyword->new(%params);
 
-    use Data::Dumper;
-    warn Dumper \%params;
-
     if ( $model->is_valid ) {
-        Gang::Groonga::Client->new->create('Keyword', %params);
+        Gang::Groonga::Client->new->create('Keyword', {%params});
     }
 
     $c->res->redirect( '/admin/keyword/list' );
@@ -84,6 +81,10 @@ sub post_edit {
     my ( $class, $c ) = @_;
 
     my %params = %{ $c->req->parameters };
+
+    use Data::Dumper;
+    warn Dumper {%params};
+
     my $model = Gang::Model::Keyword->new(%params);
 
     if ( not $params{display_fg} ) {
@@ -91,7 +92,7 @@ sub post_edit {
     }
 
     if ( $model->is_valid ) {
-        Gang::Groonga::Client->new->create('Keyword', %params);
+        Gang::Groonga::Client->new->update('Keyword', {%params});
     }
 
     $c->res->redirect( '/admin/keyword/list' );
