@@ -9,6 +9,10 @@ sub grn_schema_file {
     Path::Class::File->new( Cwd::cwd, 'groonga', 'schema.grn' );  
 }
 
+sub grn_data_file {
+    Path::Class::File->new( Cwd::cwd, 'groonga', 'data.grn' );  
+}
+
 sub grn_test_file_of {
     my ( $class, $target ) = @_;
 

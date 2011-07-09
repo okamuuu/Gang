@@ -4,6 +4,8 @@ all_from 'lib/Gang.pm';
 
 # requires '';
 requires 'Plack::Middleware::Debug::W3CValidate' => 0.04
+# requires 'Smart::Args' => 0.10;
+requires 'Class::Accessor::Lite' => 0.05;
 
 tests 't/*.t';
 author_tests 'xt';

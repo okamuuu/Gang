@@ -11,11 +11,12 @@ sub update_keyword {1}
 
 sub delete_keyword {1}
 
-sub listing_keyword {
+sub list_keyword {
     my ( $self, $key ) = @_;
 
     my $result;
     try { $result = Gang::Unit->grn->list('Keyword') } catch {};
+
     return $result;
 }
 
