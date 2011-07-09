@@ -1,0 +1,16 @@
+load --table Keyword
+[
+  {
+    "_key": "perl",
+    "name": "Perl",
+    "display_fg": true,
+  },
+  {
+    "_key": "html5",
+    "name": "HTML5",
+    "display_fg": false,
+  }
+]
+
+
+
