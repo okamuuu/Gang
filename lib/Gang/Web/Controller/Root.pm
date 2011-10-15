@@ -5,19 +5,19 @@ use warnings;
 sub auto {}
 
 sub get_index {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     $c->res->body('get_index');
 }
 
 sub post_index {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     $c->res->body('post_index');
 }
 
 sub end {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     if ( $c->res->status == 301 ) { return; }
 

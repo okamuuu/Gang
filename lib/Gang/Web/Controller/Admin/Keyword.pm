@@ -5,19 +5,19 @@ use Gang::Model::Keyword;
 use Gang::Groonga::Client;
 
 sub auto {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
     $c->stash->{title} = 'Keyword';
     $c->stash->{table} = 'keyword';
 }
 
 sub get_index {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     $c->res->redirect( $c->req->request_uri . "list" );
 }
 
 sub get_list {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     my $result = Gang::Groonga::Client->new->list('Keyword');
 
@@ -29,7 +29,7 @@ sub get_list {
 }
 
 sub get_show {
-    my ( $class, $c, $key ) = @_;
+    my ( $c, $key ) = @_;
 
     my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
@@ -40,7 +40,7 @@ sub get_show {
 }
 
 sub get_create {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     $c->stash->{title} .= ' Create';
     $c->stash->{action} = 'create';
@@ -50,7 +50,7 @@ sub get_create {
 }
 
 sub post_create {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     my %params = %{ $c->req->parameters };
 
@@ -64,7 +64,7 @@ sub post_create {
 }
 
 sub get_edit {
-    my ( $class, $c, $key ) = @_;
+    my ( $c, $key ) = @_;
 
     my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
@@ -78,7 +78,7 @@ sub get_edit {
 }
 
 sub post_edit {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     my %params = %{ $c->req->parameters };
 
@@ -99,7 +99,7 @@ sub post_edit {
 }
 
 sub get_delete {
-    my ( $class, $c, $key ) = @_;
+    my ( $c, $key ) = @_;
 
     my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
@@ -113,7 +113,7 @@ sub get_delete {
 }
 
 sub post_delete {
-    my ( $class, $c, $key ) = @_;
+    my ( $c, $key ) = @_;
 
     my $result = Gang::Groonga::Client->new->delete( 'Keyword', $key );
 
@@ -124,7 +124,7 @@ sub post_delete {
 }
 
 sub end {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 }
 
 1;

@@ -11,7 +11,8 @@ use Carp ();
 sub app {
     my $class = shift;
   
-    my $router = Gang::Web::Router->router;
+    my $router = Gang::Web::Router->create;
+    my $tx     = Gang::Unit::TX->new;
 
     return sub {
         my $env = shift;
@@ -23,14 +24,18 @@ sub app {
         my $context = Gang::Web::Context->new(
             base_controller => 'Gang::Web::Controller',
             root_controller => 'Gang::Web::Controller::Root',
-            renderer        => Gang::Unit::TX->new,
+            renderer        => $tx,
             request         => $req,
             response        => $req->new_response(200),
             stash           => {},
         );
 
-        try {    
-            $context->run_through( $matched_route );
+        try {
+            ### XXX: add get_splats to Route?
+            my @splats = $matched_route->{splat} ? @{ $matched_route->{splat} } : ();
+            
+            ### context run through in suited controllers with splats.
+            $_->($context,@splats) for @{ $matched_route->{codes} }; 
         }
         catch {
             warn $_;

@@ -3,12 +3,12 @@ use strict;
 use warnings;
 
 sub auto {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
     $c->stash->{title} = 'Article';
 }
 
 sub get_list {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     $c->stash->{title} .= ' List';
     
@@ -17,14 +17,14 @@ sub get_list {
 }
 
 sub get_show {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     $c->stash->{title} .= ' Show';
     $c->stash->{template} = 'article/show.tx';
 }
 
 sub post_create {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     my $body = '[[0,1294292470.41307,0.000532663],[[[2],[["_key","ShortText"],["name","ShortText"]],["tasukuchan","グニャラくん"],["OffGao","OffGao"]]]]';    
 
@@ -32,7 +32,7 @@ sub post_create {
 }
 
 sub post_update {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     my $body = '[[0,1294292470.41307,0.000532663],[[[2],[["_key","ShortText"],["name","ShortText"]],["tasukuchan","グニャラくん"],["OffGao","OffGao"]]]]';    
 
@@ -40,7 +40,7 @@ sub post_update {
 }
 
 sub post_delete {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 
     my $body = '[[0,1294292470.41307,0.000532663],[[[2],[["_key","ShortText"],["name","ShortText"]],["tasukuchan","グニャラくん"],["OffGao","OffGao"]]]]';    
 
@@ -48,7 +48,7 @@ sub post_delete {
 }
 
 sub end {
-    my ( $class, $c ) = @_;
+    my ( $c ) = @_;
 }
 
 1;
