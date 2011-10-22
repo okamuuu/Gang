@@ -6,7 +6,7 @@ use JSON ();
 use Data::Page::Navigation;
 use LWP::UserAgent;
 use Class::Accessor::Lite 0.05 (
-    ro  => [qw/ua port host/]
+    ro  => [qw/ua port host cmd_version/]
 );
 
 our $PORT = 10041;
@@ -23,7 +23,12 @@ sub new {
         ua   => $ua,
         port => $port,
         host => $host,
+        cmd_version => 2,
     }, $class;
+}
+
+sub is_supported_cmd_version {
+    return $_[0]->get_status->[1]->{command_version} == 2 ? 1 : 0;
 }
 
 sub get_status {
@@ -32,7 +37,7 @@ sub get_status {
     my $uri = $self->_uri("status");
     my $res = $self->_get( $uri );
 
-    Carp::croak("Groonga server has gone...") unless $res->is_success;
+    Carp::croak("Groonga server is gone...") unless $res->is_success;
 
     return JSON::decode_json( $res->content );
 }
@@ -43,7 +48,7 @@ sub list {
     my $rows = $attr->{rows} || 10;
     my $page = $attr->{page} || 1;
 
-    my $limit = $rows;
+    my $limit = $rows <= 100 ? $rows : 100;
     my $offset = $rows * ( $page - 1 );
 
     my $uri = $self->_uri("select");
@@ -168,6 +173,8 @@ sub info {
 
 sub _get {
     my ($self, $uri) = @_;
+    
+    $uri->query_form( $uri->query_form(), command_version => $self->cmd_version );
 
     my $res = $self->ua->get($uri);
     

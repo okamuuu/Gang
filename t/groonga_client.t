@@ -17,9 +17,13 @@ subtest 'prepare' => sub {
     isa_ok( $client, 'Gang::Groonga::Client' );
 };
 
+subtest 'is supported cmd version' => sub {
+    ok $client->is_supported_cmd_version;
+};
+
 subtest 'request groonga server status' => sub {
     my $data = $client->get_status;
-    ok ( $data->[1]->{"version"} ge "1.0.6" ), 'version check.';
+    ok ( $data->[1]->{"version"} ge "1.2.4" ), 'version check.';
 };
 
 subtest 'lookup article' => sub {
