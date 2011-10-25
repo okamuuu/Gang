@@ -2,7 +2,7 @@ package t::TestUtils;
 use strict;
 use warnings;
 use Gang::Path;
-use Test::Groonga;
+use Test::Groonga 0.06;
 
 sub create_test_grn {
     $_[0]->_create( 
