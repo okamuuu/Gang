@@ -12,7 +12,7 @@ sub app {
     my $class = shift;
   
     my $router = Gang::Web::Router->create;
-    my $tx     = Gang::Unit::TX->new;
+    my $tx     = Gang::Unit::TX->new(syntax => 'TTerse');
 
     return sub {
         my $env = shift;
@@ -22,8 +22,6 @@ sub app {
         my $req = Plack::Request->new($env);
         
         my $context = Gang::Web::Context->new(
-            base_controller => 'Gang::Web::Controller',
-            root_controller => 'Gang::Web::Controller::Root',
             renderer        => $tx,
             request         => $req,
             response        => $req->new_response(200),
@@ -41,7 +39,7 @@ sub app {
             warn $_;
             return $class->handle_500;
         };
-    
+
         return $context->response->finalize;
     }
 }
