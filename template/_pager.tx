@@ -6,7 +6,8 @@
 
 : if ( $pager.pages_in_navigation  ) {
 :   for $pager.pages_in_navigation -> $page {
-    <li><a href="?page=<: $page :>"><: $page :></a></li>
+:   $class
+    <li<: $pager.current_page == $page ? html_unescape(' class="current"') : '' :>><a href="?page=<: $page :>"><: $page :></a></li>
 :   }
 : }
 
@@ -14,11 +15,4 @@
     <li class="next"><a href="?page=<: $pager.next_page :>">NEXT</a></li>
 :# }
 
-    <li><a href="#">1</a></li>
-    <li class="current">2</li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li class="next"><a href="#">NEXT</a></li>
 </ul>
-
