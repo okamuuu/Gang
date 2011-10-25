@@ -19,7 +19,13 @@ sub get_index {
 sub get_list {
     my ( $c ) = @_;
 
-    my $result = Gang::Groonga::Client->new->list('Keyword');
+    ### XXX: 上手に書きたい
+    my $page = $c->req->param('page');
+    $page = $page =~ m/^\d+$/ ? $page : 1;
+    
+    my $result =
+      Gang::Groonga::Client->new->list( 'Keyword', {},
+        { page => $page, rows => 10 } );
 
     $c->stash->{title} .= ' List';
     $c->stash->{columns} = [Gang::Model::Keyword->columns];
