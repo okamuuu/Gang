@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Carp ();
 use JSON ();
-use Data::Page::Navigation;
+use Data::Page::Navigation 0.06;
 use LWP::UserAgent;
 use Class::Accessor::Lite 0.05 (
     ro  => [qw/ua port host cmd_version/]
@@ -23,7 +23,6 @@ sub new {
         ua   => $ua,
         port => $port,
         host => $host,
-        cmd_version => 2,
     }, $class;
 }
 
@@ -174,7 +173,7 @@ sub info {
 sub _get {
     my ($self, $uri) = @_;
     
-    $uri->query_form( $uri->query_form(), command_version => $self->cmd_version );
+    #$uri->query_form( $uri->query_form(), command_version => $self->cmd_version );
 
     my $res = $self->ua->get($uri);
     
