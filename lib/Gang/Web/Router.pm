@@ -18,9 +18,6 @@ sub create {
    
     for my $route ( @{ $router->{routes} } ) {
 
-        use Data::Dumper;
-        warn Dumper $route;
-
         $route->dest->{code}->() =~ m/([^#]+)\#(.*)/ or Carp::croak("Not Found Controller...");
 
         my @namespaces = split '::', $1; 
@@ -48,10 +45,6 @@ sub create {
 
         my $main_action = $controller->can($action)
         or Carp::croak("Not Found $action...");
-
-#    for my $action ( @pre_actions, $main_action, @post_actions ) {
-#        $action->( undef, $class, @splats); ### XXX: main_actionにだけ@splats渡したい
-#    }
 
         $route->dest->{codes} = [@pre_actions, $main_action, @post_actions];
     }
