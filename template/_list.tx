@@ -1,6 +1,6 @@
 <section>
 
-<h1><: $table :></h1>
+<h1><: $table :> (<: $pager.total_entries :>)</h1>
             
 <p><a href="/admin/<: $table :>/create">create</a></p>
 

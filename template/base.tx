@@ -10,8 +10,8 @@
 <head> 
     <meta charset="utf-8"> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-    <title><: $title :> :: Perl Diary</title> 
-    <meta name="title" content="Perl Diary"> 
+    <title><: $title :> :: Gang Admin</title> 
+    <meta name="title" content="<: $title :>"> 
     <meta name="description" content="Diary of Modern(?) Perl Programmer." /> 
     <meta name="google-site-verification" content="xxxxxxxxxxxxxx" /> 
     <!-- Speaking of Google, don't forget to set your site up: http://google.com/webmasters --> 
@@ -61,14 +61,12 @@
  
 <header> 
     
-    <h1><a href="/">Perl Diary</a></h1> 
+    <h1><a href="/">Gang Admin</a></h1> 
 
     <nav id="secondary" class="clearfix"> 
         <ol> 
-            <li class="current"><a href="#">Perl</a></li> 
-            <li><a href="#">HTML5</a></li> 
-            <li><a href="#">JavaScript</a></li> 
-            <li><a href="#">Ruby</a></li> 
+            <li><a href="/admin/article/list">Articles</a></li> 
+            <li><a href="/admin/keyword/list">Keywords</a></li> 
         </ol> 
     </nav> 
 
@@ -80,7 +78,7 @@
     
     <p> 
         <small> 
-            Copyright 2011 <a href="http://github.com/okamuuu">okamuuu</a>. All Rights Reserved.
+            Copyright 2011 <a href="https://github.com/okamuuu/Gang">okamuuu</a>. All Rights Reserved.
         </small> 
     </p> 
     
