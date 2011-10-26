@@ -1,19 +1,38 @@
 package Gang::Web::Controller::Article;
 use strict;
 use warnings;
+use Gang::Groonga::Client;
+use Gang::Model::Article;
+
+my $TABLE = 'Article';
 
 sub auto {
     my ( $c ) = @_;
-    $c->stash->{title} = 'Article';
+    $c->stash->{title} = $TABLE;
+    $c->stash->{table} = $TABLE;
+}
+
+sub get_index {
+    my ( $c ) = @_;
+    $c->req->redirect('/article/list');
 }
 
 sub get_list {
     my ( $c ) = @_;
 
-    $c->stash->{title} .= ' List';
+    ### XXX: 上手に書きたい
+    my $page = $c->req->param('page') || 1;
+    $page = $page =~ m/^\d+$/ ? $page : 1;
     
-    $c->stash->{name} = 'hoge';
-    $c->stash->{template} = 'article/list.tx';
+    my $result =
+      Gang::Groonga::Client->new->list( $TABLE, {}, 
+        { page => $page, rows => 10 } );
+
+    $c->stash->{title} .= ' list';
+    $c->stash->{columns} = ["Gang::Model::$TABLE"->list_columns];
+    $c->stash->{rows}   = $result->{rows};
+    $c->stash->{pager}  = $result->{pager};
+    $c->stash->{template} = 'admin/article/list.tx';
 }
 
 sub get_show {

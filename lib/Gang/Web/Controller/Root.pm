@@ -2,18 +2,10 @@ package Gang::Web::Controller::Root;
 use strict;
 use warnings;
 
-sub auto {}
-
 sub get_index {
     my ( $c ) = @_;
-
-    $c->res->body('get_index');
-}
-
-sub post_index {
-    my ( $c ) = @_;
-
-    $c->res->body('post_index');
+    
+    $c->res->redirect('/article/list');
 }
 
 sub end {
@@ -22,7 +14,6 @@ sub end {
     if ( $c->res->status == 301 ) { return; }
 
     if ( $c->stash->{template} ) {
-        ### XXX: Template内部で$c->req->uri_withとかする為なのだがイマイチかも...
         my $content = $c->renderer->render( $c->stash->{template},
             { %{ $c->stash }, c => $c } );
 

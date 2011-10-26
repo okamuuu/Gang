@@ -8,7 +8,7 @@ use Plack::Request;
 use Try::Tiny qw/try catch/;
 use Carp ();
 
-sub app {
+sub admin {
     my $class = shift;
   
     my $router = Gang::Web::Router->create;
@@ -17,7 +17,7 @@ sub app {
     return sub {
         my $env = shift;
 
-        my $matched_route = $router->match($env) or return $class->handle_404;
+        my $matched_route = $router->match($env) or return $class->_handle_404;
 
         my $req = Plack::Request->new($env);
         
@@ -37,14 +37,15 @@ sub app {
         }
         catch {
             warn $_;
-            return $class->handle_500;
+            return $class->_handle_500;
         };
 
         return $context->response->finalize;
     }
 }
 
-sub handle_404 {
+### TODO: Plack::Middleware::ErrorDocument
+sub _handle_404 {
     my $class = shift;
     return [
         404, [ "Content-Type" => "text/plain", "Content-Length" => 13 ],
@@ -52,7 +53,8 @@ sub handle_404 {
     ];
 }
 
-sub handle_500 {
+### TODO: Plack::Middleware::ErrorDocument
+sub _handle_500 {
     my $class = shift;
     return [
         500, [ "Content-Type" => "text/plain", "Content-Length" => 21 ],

@@ -3,8 +3,7 @@ use strict;
 use warnings;
 use Carp();
 use Gang::Web::Controller::Root;
-use Gang::Web::Controller::Admin;
-use Gang::Web::Controller::Admin::Keyword;
+use Gang::Web::Controller::Keyword;
 use Gang::Web::Controller::Article;
 use Router::Simple::Sinatraish;
 
@@ -22,7 +21,6 @@ sub create {
 
         my @namespaces = split '::', $1; 
         my $action     = $2; 
-        #my @splats     = $route->{splat} ? @{ $route->{splat} } : (); 
 
         my $controller = $class->base_controller;
         my (@pre_actions, @post_actions); 
@@ -51,14 +49,11 @@ sub create {
     return $router;
 }
 
-
 get '/' => sub { 'Root#get_index' }; 
 
-post '/' => sub { 'Root#post_index' };
-
+get '/article/' => sub { 'Article#get_index' }; 
 get '/article/list' => sub { 'Article#get_list' }; 
-
-get '/article/show' => sub { 'Article#get_show' }; 
+get '/article/show/' => sub { 'Article#get_show' }; 
 
 post '/article/create' => sub { 'Article#post_create' }; 
 
@@ -66,20 +61,19 @@ post '/article/update' => sub { 'Article#post_update' };
 
 post '/article/delete' => sub { 'Article#post_delete' }; 
 
-get '/admin/keyword/' => sub { 'Admin::Keyword#get_index' }; 
+get '/keyword/' => sub { 'Keyword#get_index' }; 
+get '/keyword/list' => sub { 'Keyword#get_list' }; 
+get '/keyword/show/*' => sub { 'Keyword#get_show' }; 
 
-get '/admin/keyword/show/*' => sub { 'Admin::Keyword#get_show' }; 
+get '/keyword/create'  => sub { 'Keyword#get_create' };
+post '/keyword/create' => sub { 'Keyword#post_create' };
 
-get '/admin/keyword/create'  => sub { 'Admin::Keyword#get_create' };
-post '/admin/keyword/create' => sub { 'Admin::Keyword#post_create' };
+get '/keyword/edit/*' => sub { 'Keyword#get_edit' }; 
+post '/keyword/edit/*' => sub { 'Keyword#post_edit' }; 
 
-get '/admin/keyword/edit/*' => sub { 'Admin::Keyword#get_edit' }; 
-post '/admin/keyword/edit/*' => sub { 'Admin::Keyword#post_edit' }; 
+get '/keyword/delete/*' => sub { 'Keyword#get_delete' }; 
+post '/keyword/delete/*' => sub { 'Keyword#post_delete' }; 
 
-get '/admin/keyword/delete/*' => sub { 'Admin::Keyword#get_delete' }; 
-post '/admin/keyword/delete/*' => sub { 'Admin::Keyword#post_delete' }; 
-
-get '/admin/keyword/list' => sub { 'Admin::Keyword#get_list' }; 
 
 1;
 
