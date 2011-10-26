@@ -61,6 +61,14 @@ load --table Keyword
     "display_fg": true,
   }
 ]
-
-
+load --table Article
+[
+   {
+    "_key": "key1",
+    "title": "title1",
+    "keywords": ["perl","php"],
+    "content": "content1",
+    "display_fg": true,
+  }
+]
 
