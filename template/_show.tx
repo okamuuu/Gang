@@ -2,7 +2,7 @@
 
 <h1><: $table :></h1>
 
-<p><a href="/admin/<: $table :>/list">go to  List</a></p>
+<p><a href="/<: $table :>/list">go to  List</a></p>
  
 <table>
 : for $columns -> $column {

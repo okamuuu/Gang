@@ -3,7 +3,7 @@
 
 : include "_show.tx";
 
-<form action="/admin/<: $table :>/delete/<: $model["_key"] :>" method="POST">
+<form action="/<: $table :>/delete/<: $model["_key"] :>" method="POST">
 <input type="submit" value="<: $action :>">
 </form>
 

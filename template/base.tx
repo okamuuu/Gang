@@ -65,8 +65,8 @@
 
     <nav id="secondary" class="clearfix"> 
         <ol> 
-            <li><a href="/admin/article/list">Articles</a></li> 
-            <li><a href="/admin/keyword/list">Keywords</a></li> 
+            <li><a href="/article/list">Articles</a></li> 
+            <li><a href="/keyword/list">Keywords</a></li> 
         </ol> 
     </nav> 
 

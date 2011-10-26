@@ -2,7 +2,7 @@
 
 <h1><: $table :> (<: $pager.total_entries :>)</h1>
             
-<p><a href="/admin/<: $table :>/create">create</a></p>
+<p><a href="/<: $table :>/create">create</a></p>
 
 <table>
     <tr>
@@ -13,13 +13,20 @@
     </tr>
 : for $rows -> $row {
     <tr>
-:     for $columns -> $column { 
-        <td><: $row[$column] :></td> 
+:     for $columns -> $column {
+        <td>
+:       my $value = $row[$column];
+:       if( ref($value) and ref($value) == 'ARRAY') {
+            <: $value.join(', ') :>
+:       } else {
+            <: $value :>
+:       }
+        </td> 
 :     }
         <td>
-            <a href="/admin/<: $table :>/show/<: $row._key :>">show</a>
-            <a href="/admin/<: $table :>/edit/<: $row._key :>">edit</a>
-            <a href="/admin/<: $table :>/delete/<: $row._key :>">delete</a>
+            <a href="/<: $table :>/show/<: $row._key :>">show</a>
+            <a href="/<: $table :>/edit/<: $row._key :>">edit</a>
+            <a href="/<: $table :>/delete/<: $row._key :>">delete</a>
         </td>
     </tr>
 : }

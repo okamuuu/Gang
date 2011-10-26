@@ -3,9 +3,9 @@
 <h1><: $table :></h1>
 
 : if ( $model["_id"] ) { 
-<form action="/admin/<: $table :>/edit/<: $model["_key"] :>" method="POST">
+<form action="/<: $table :>/edit/<: $model["_key"] :>" method="POST">
 : } else {
-<form action="/admin/<: $table :>/create" method="POST">
+<form action="/<: $table :>/create" method="POST">
 : }
 
 <table>
