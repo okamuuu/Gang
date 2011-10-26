@@ -2,13 +2,20 @@
 
 <h1><: $table :></h1>
 
-<p><a href="/<: $table :>/list">go to  List</a></p>
+<p><a href="/<: lc($table) :>/list">go to  List</a></p>
  
 <table>
 : for $columns -> $column {
     <tr>
         <th><: $column :></th>
-        <td><: $model[$column] :></td> 
+        <td>
+:       my $value = $model[$column];
+:       if( ref($value) and ref($value) == 'ARRAY') {
+            <: $value.join(', ') :>
+:       } else {
+            <: $value :>
+:       }   
+        </td> 
     </tr>
 : }
 </table>  

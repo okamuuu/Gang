@@ -69,6 +69,13 @@ load --table Article
     "keywords": ["perl","php"],
     "content": "content1",
     "display_fg": true,
+  },
+  {
+    "_key": "key2",
+    "title": "title2",
+    "keywords": ["perl","php", "javascript"],
+    "content": "content2",
+    "display_fg": true,
   }
 ]
 

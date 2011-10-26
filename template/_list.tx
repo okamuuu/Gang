@@ -2,7 +2,7 @@
 
 <h1><: $table :> (<: $pager.total_entries :>)</h1>
             
-<p><a href="/<: $table :>/create">create</a></p>
+<p><a href="/<: lc($table) :>/create">create</a></p>
 
 <table>
     <tr>
@@ -24,9 +24,9 @@
         </td> 
 :     }
         <td>
-            <a href="/<: $table :>/show/<: $row._key :>">show</a>
-            <a href="/<: $table :>/edit/<: $row._key :>">edit</a>
-            <a href="/<: $table :>/delete/<: $row._key :>">delete</a>
+            <a href="/<: lc($table) :>/show/<: $row._key :>">show</a>
+            <a href="/<: lc($table) :>/edit/<: $row._key :>">edit</a>
+            <a href="/<: lc($table) :>/delete/<: $row._key :>">delete</a>
         </td>
     </tr>
 : }

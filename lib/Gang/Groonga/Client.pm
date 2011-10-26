@@ -176,7 +176,10 @@ sub _get {
     #$uri->query_form( $uri->query_form(), command_version => $self->cmd_version );
 
     my $res = $self->ua->get($uri);
-    
+
+    use Data::Dumper;
+    warn Dumper $res;
+
     if ( not $res->is_success ) {
         Carp::croak(
             "Groonga server return error status\n" . 

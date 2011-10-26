@@ -3,9 +3,9 @@
 <h1><: $table :></h1>
 
 : if ( $model["_id"] ) { 
-<form action="/<: $table :>/edit/<: $model["_key"] :>" method="POST">
+<form action="/<: lc($table) :>/edit/<: $model["_key"] :>" method="POST">
 : } else {
-<form action="/<: $table :>/create" method="POST">
+<form action="/<: lc($table) :>/create" method="POST">
 : }
 
 <table>
@@ -37,10 +37,12 @@
         <td class="<: $type_of[$column] :>">
 
 : if ( $type_of[$column] == 'ShortText' ) {
-        <input name="<: $column :>" type="text" value="<: $model[$column]:>"></td>
+        <input name="<: $column :>" type="text" value="<: $model[$column]:>"/>
+: } else if ( $type_of[$column] == 'Text' ) {
+        <textarea name="<: $column :>"><: $model[$column]:></textarea>
 : } else if ( $type_of[$column] == 'Bool' ) {
-        <input name="<: $column :>" type="radio" value="1" <: ($model[$column] == 'true') ? 'checked="checked"' : '' :>/> YES
-        <input name="<: $column :>" type="radio" value="0" <: ($model[$column] == 'false') ? 'checked="checked"' : '' :>/> NO
+        <input name="<: $column :>" type="radio" value="1" <: ($model[$column] ) ? 'checked="checked"' : '' :>/> YES
+        <input name="<: $column :>" type="radio" value="0" <: (not $model[$column] ) ? 'checked="checked"' : '' :>/> NO
 : }
         </td> 
     </tr>

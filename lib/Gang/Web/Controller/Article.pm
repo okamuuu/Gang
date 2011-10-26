@@ -8,6 +8,7 @@ my $TABLE = 'Article';
 
 sub auto {
     my ( $c ) = @_;
+    ### XXX: urlから取得すればよくね？
     $c->stash->{title} = $TABLE;
     $c->stash->{table} = $TABLE;
 }
@@ -36,34 +37,91 @@ sub get_list {
 }
 
 sub get_show {
-    my ( $c ) = @_;
+    my ( $c, $key ) = @_; 
 
-    $c->stash->{title} .= ' Show';
-    $c->stash->{template} = 'article/show.tx';
+    my $row = Gang::Groonga::Client->new->lookup( $TABLE, $key );
+    my $model = "Gang::Model::$TABLE"->new( %{$row} );
+
+    $c->stash->{model} = $model;
+    $c->stash->{columns} = [ "Gang::Model::$TABLE"->columns ];
+    $c->stash->{title} .= ' show';
+    $c->stash->{template} = 'admin/article/show.tx';
+}
+
+sub get_create {
+    my ( $c ) = @_; 
+
+    $c->stash->{title} .= 'create';
+    $c->stash->{action} = 'create';
+    $c->stash->{columns} = [ grep { $_ ne '_id' } "Gang::Model::$TABLE"->columns ];
+    $c->stash->{type_of} = { "Gang::Model::$TABLE"->type_of };
+    $c->stash->{template} = 'admin/article/create.tx';
 }
 
 sub post_create {
     my ( $c ) = @_;
 
-    my $body = '[[0,1294292470.41307,0.000532663],[[[2],[["_key","ShortText"],["name","ShortText"]],["tasukuchan","グニャラくん"],["OffGao","OffGao"]]]]';    
+    my %params = %{ $c->req->parameters };
 
-    $c->res->body($body);
+    my $model = "Gang::Model::$TABLE"->new(%params);
+
+    if ( $model->is_valid ) { 
+        Gang::Groonga::Client->new->create($TABLE, {%params});
+    } 
+
+    $c->res->redirect( '/article/list' );
 }
 
-sub post_update {
-    my ( $c ) = @_;
+sub get_edit {
+    my ( $c, $key ) = @_;
 
-    my $body = '[[0,1294292470.41307,0.000532663],[[[2],[["_key","ShortText"],["name","ShortText"]],["tasukuchan","グニャラくん"],["OffGao","OffGao"]]]]';    
+    my $row = Gang::Groonga::Client->new->lookup( $TABLE, $key );
+    my $model = "Gang::Model::$TABLE"->new( %{$row} );
 
-    $c->res->body($body);
+    $c->stash->{title} .= 'edit';
+    $c->stash->{action} = 'edit';
+    $c->stash->{model} = $model;
+    $c->stash->{columns} = ["Gang::Model::$TABLE"->columns];
+    $c->stash->{type_of} = {"Gang::Model::$TABLE"->type_of};
+    $c->stash->{template} = 'admin/article/edit.tx';
+
+}
+
+sub post_edit {
+    my ( $c, $key ) = @_;
+
+    my %params = %{ $c->req->parameters };
+
+    my $model = "Gang::Model::$TABLE"->new(%params);
+
+    if ( not $params{display_fg} ) {
+        $params{display_fg} = 0;
+    }
+
+    if ( $model->is_valid ) {
+        Gang::Groonga::Client->new->update($TABLE, {%params});
+    }
+
+    $c->res->redirect( '/article/list' );
+}
+
+sub get_delete {
+    my ( $c, $key ) = @_;
+    my $row = Gang::Groonga::Client->new->lookup( $TABLE, $key );
+    my $model = "Gang::Model::$TABLE"->new( %{$row} );
+
+    $c->stash->{title} .= 'delete';
+    $c->stash->{action} = 'delete';
+    $c->stash->{model} = $model;
+    $c->stash->{columns} = [ grep { $_ ne '_id' } "Gang::Model::$TABLE"->columns ];
+    $c->stash->{template} = 'admin/article/delete.tx';
+
 }
 
 sub post_delete {
-    my ( $c ) = @_;
-
-    my $body = '[[0,1294292470.41307,0.000532663],[[[2],[["_key","ShortText"],["name","ShortText"]],["tasukuchan","グニャラくん"],["OffGao","OffGao"]]]]';    
-
-    $c->res->body($body);
+    my ( $c, $key ) = @_;
+    my $result = Gang::Groonga::Client->new->delete( $TABLE, $key );
+    $c->res->redirect( '/article/list' );
 }
 
 sub end {

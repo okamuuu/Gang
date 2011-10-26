@@ -15,6 +15,7 @@ sub new {
         path      => [ _dir($template) ],
         cache_dir => _dir('tmp'),
         function  => {
+            'lc'          => sub { lc  $_[0] },
             'ref'         => sub { ref $_[0] },
             html_unescape => sub {
                 Text::Xslate::mark_raw(shift);

@@ -53,13 +53,16 @@ get '/' => sub { 'Root#get_index' };
 
 get '/article/' => sub { 'Article#get_index' }; 
 get '/article/list' => sub { 'Article#get_list' }; 
-get '/article/show/' => sub { 'Article#get_show' }; 
+get '/article/show/*' => sub { 'Article#get_show' }; 
 
+get '/article/create' => sub { 'Article#get_create' }; 
 post '/article/create' => sub { 'Article#post_create' }; 
 
-post '/article/update' => sub { 'Article#post_update' }; 
+get '/article/edit/*' => sub { 'Article#get_edit' }; 
+post '/article/edit/*' => sub { 'Article#post_edit' }; 
 
-post '/article/delete' => sub { 'Article#post_delete' }; 
+get '/article/delete/*' => sub { 'Article#get_delete' }; 
+post '/article/delete/*' => sub { 'Article#post_delete' }; 
 
 get '/keyword/' => sub { 'Keyword#get_index' }; 
 get '/keyword/list' => sub { 'Keyword#get_list' }; 
