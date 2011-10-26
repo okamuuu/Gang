@@ -12,9 +12,10 @@ sub new {
     my $template = $args{template} || 'template';
 
     my $tx = Text::Xslate->new(
-        path      => [_dir($template)],
+        path      => [ _dir($template) ],
         cache_dir => _dir('tmp'),
         function  => {
+            'ref'         => sub { ref $_[0] },
             html_unescape => sub {
                 Text::Xslate::mark_raw(shift);
             },
