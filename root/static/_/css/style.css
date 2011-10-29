@@ -298,7 +298,10 @@ footer {
 
 footer a {color: #666;}
 
-
+.search-box {
+    text-align: center;
+    margin-bottom: 15px;
+}
 
 /* Print styles!
 -------------------------------------------------------------------------------*/

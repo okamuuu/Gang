@@ -10,7 +10,7 @@
         <th><: $column :></th>
         <td>
 :       my $value = $model[$column];
-:       if( ref($value) and ref($value) == 'ARRAY') {
+:       if( is_array_ref($value) ) {
             <: $value.join(', ') :>
 :       } else {
             <: $value :>

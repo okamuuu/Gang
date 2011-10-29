@@ -4,6 +4,8 @@
             
 <p><a href="/<: lc($table) :>/create">create</a></p>
 
+: include "_search_box.tx";
+
 <table>
     <tr>
 : for $columns -> $column { 
@@ -16,7 +18,7 @@
 :     for $columns -> $column {
         <td>
 :       my $value = $row[$column];
-:       if( ref($value) and ref($value) == 'ARRAY') {
+:       if( is_array_ref($value) ) {
             <: $value.join(', ') :>
 :       } else {
             <: $value :>

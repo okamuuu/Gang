@@ -31,7 +31,6 @@
     </tr>
 : ; next; }
 
-
     <tr>
         <th><: $column :></th> 
         <td class="<: $type_of[$column] :>">
@@ -43,6 +42,14 @@
 : } else if ( $type_of[$column] == 'Bool' ) {
         <input name="<: $column :>" type="radio" value="1" <: ($model[$column] ) ? 'checked="checked"' : '' :>/> YES
         <input name="<: $column :>" type="radio" value="0" <: (not $model[$column] ) ? 'checked="checked"' : '' :>/> NO
+
+: } else if ( $type_of[$column] == 'Keyword' ) {
+        
+        <select name="<: $column :>" multiple>
+:       for $keywords -> $keyword {
+            <option value="<: $keyword["_key"] :>"><: $keyword["name"] :></option>
+:       }
+        </select>
 : }
         </td> 
     </tr>
