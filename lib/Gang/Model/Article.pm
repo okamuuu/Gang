@@ -10,12 +10,14 @@ sub columns { return qw/_id _key title keywords content display_fg published_at 
 
 sub list_columns { return qw/_id _key title keywords display_fg published_at created_at updated_at/ }
 
+sub match_columns { return qw/title keywords content/ }
+
 sub type_of {
     return (
         _id          => 'UInt32',
         _key         => 'ShortText',
         title        => 'ShortText',
-        keywords     => 'ShortText',
+        keywords     => 'Keyword',
         content      => 'Text',
         display_fg   => 'Bool',
         published_at => 'Time',
