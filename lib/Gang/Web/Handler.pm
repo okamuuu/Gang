@@ -2,6 +2,7 @@ package Gang::Web::Handler;
 use strict;
 use warnings;
 use Gang::Unit::TX;
+use Gang::Web::Request;
 use Gang::Web::Router;
 use Gang::Web::Context;
 use Plack::Request;
@@ -12,15 +13,15 @@ sub admin {
     my $class = shift;
   
     my $router = Gang::Web::Router->create;
-    my $tx     = Gang::Unit::TX->new(syntax => 'TTerse');
+    my $tx     = Gang::Unit::TX->new;
 
     return sub {
         my $env = shift;
-
+        
         my $matched_route = $router->match($env) or return $class->_handle_404;
 
-        my $req = Plack::Request->new($env);
-        
+        my $req = Gang::Web::Request->new($env);
+       
         my $context = Gang::Web::Context->new(
             renderer        => $tx,
             request         => $req,
