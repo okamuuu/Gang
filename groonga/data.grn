@@ -76,6 +76,17 @@ load --table Article
     "keywords": ["perl","php", "javascript"],
     "content": "content2",
     "display_fg": true,
+  },
+  {
+    "_key": "key3",
+    "title": "タイトル",
+    "keywords": ["perl","php", "javascript"],
+    "content": "コンテント",
+    "display_fg": true,
   }
 ]
+
+load --table Article
+[{"keywords":["html5","javascript","php"],"_key":"test","content":"テストです。","display_fg":"0","title":"hoeg4"}]
+
 
