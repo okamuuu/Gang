@@ -50,10 +50,15 @@ sub list {
     my $limit = $rows <= 100 ? $rows : 100;
     my $offset = $rows * ( $page - 1 );
 
+    ### exclusive or
+    if ( defined $cond->{query} ^ defined $cond->{match_columns} ) {
+        Carp::croak("'query' and 'match_columns' must be used together...");
+    }
+
     my $uri = $self->_uri("select");
     $uri->query_form(
         table          => $table,
-        match_columns  => $cond->{match_columns} || undef,
+        match_columns  => $cond->{match_columns} || undef, # join(',', @words)
         query          => $cond->{query} || undef,
         output_columns => $cond->{output_columns} || undef,
         sortby         => $cond->{sortby} || undef,
@@ -108,11 +113,13 @@ sub lookup {
 
 sub load {
     my ( $self, $table, $params_ref ) = @_;
+    
+    my $json = JSON::encode_json($params_ref);
 
     my $uri = $self->_uri("load");
     $uri->query_form(
         table      => $table,
-        values     => JSON::encode_json($params_ref),
+        values     => $json,
     );
     
     return JSON::decode_json( $self->_get($uri)->content );
@@ -122,10 +129,11 @@ sub create {
     my ( $self, $table, $params_ref ) = @_;
 
     my $uri = $self->_uri("load");
+
     $uri->query_form(
         table      => $table,
         ifexists   => 0,
-        values     => JSON::encode_json($params_ref),
+        values     => JSON::encode_json([$params_ref]),
     );
     
     ### insertした件数が0の場合はdie: column _key is not unique   
@@ -173,12 +181,7 @@ sub info {
 sub _get {
     my ($self, $uri) = @_;
     
-    #$uri->query_form( $uri->query_form(), command_version => $self->cmd_version );
-
     my $res = $self->ua->get($uri);
-
-    use Data::Dumper;
-    warn Dumper $res;
 
     if ( not $res->is_success ) {
         Carp::croak(
