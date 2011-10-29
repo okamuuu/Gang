@@ -1,0 +1,6 @@
+<div class="search-box">
+<form name="query-form" id="searchform1" method="get">
+    <input name="query" id="query" value="" type="text" />
+    <input type="submit" value="search" />
+</form>
+</div>

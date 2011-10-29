@@ -1,0 +1,8 @@
+: cascade base
+: override content -> {
+
+: include "_list.tx";
+
+: include "_pager.tx";
+
+: }

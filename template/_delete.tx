@@ -1,0 +1,6 @@
+: include "_show.tx";
+
+<form action="/<: lc($table) :>/delete/<: $model["_key"] :>" method="POST">
+<input type="submit" value="<: $action :>">
+</form>
+

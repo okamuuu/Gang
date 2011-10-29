@@ -13,3 +13,5 @@ MANIFEST.bak
 tmp/*
 hardcopy.*
 groonga/db/*
+presen.psgi
+presen/
