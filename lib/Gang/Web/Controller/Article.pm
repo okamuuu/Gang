@@ -21,12 +21,19 @@ sub get_index {
 sub get_list {
     my ( $c ) = @_;
 
+    my $cond;
+    $cond->{query} = $c->req->param('query') || undef;
+
+    if ( $cond->{query} ) {
+        $cond->{match_columns} = join ',', "Gang::Model::$TABLE"->match_columns;
+    }
+
     ### XXX: 上手に書きたい
     my $page = $c->req->param('page') || 1;
     $page = $page =~ m/^\d+$/ ? $page : 1;
     
     my $result =
-      Gang::Groonga::Client->new->list( $TABLE, {}, 
+      Gang::Groonga::Client->new->list( $TABLE, $cond,
         { page => $page, rows => 10 } );
 
     $c->stash->{title} .= ' list';
@@ -51,6 +58,8 @@ sub get_show {
 sub get_create {
     my ( $c ) = @_; 
 
+    my $result = Gang::Groonga::Client->new->list('Keyword', {rows=>100, page=>1});
+    $c->stash->{keywords} = $result->{rows};
     $c->stash->{title} .= 'create';
     $c->stash->{action} = 'create';
     $c->stash->{columns} = [ grep { $_ ne '_id' } "Gang::Model::$TABLE"->columns ];
@@ -61,12 +70,12 @@ sub get_create {
 sub post_create {
     my ( $c ) = @_;
 
-    my %params = %{ $c->req->parameters };
+    my $params = $c->req->parameters->mixed;
 
-    my $model = "Gang::Model::$TABLE"->new(%params);
+    my $model = "Gang::Model::$TABLE"->new(%{$params});
 
     if ( $model->is_valid ) { 
-        Gang::Groonga::Client->new->create($TABLE, {%params});
+        Gang::Groonga::Client->new->create($TABLE, $params);
     } 
 
     $c->res->redirect( '/article/list' );
