@@ -14,7 +14,6 @@ sub create_test_grn {
 sub create_test_grn_with_20articles {
     $_[0]->_create( 
         Gang::Path->grn_schema_file,
-        Gang::Path->grn_test_file_of('load_keywords.grn'),
         Gang::Path->grn_test_file_of('load_20articles.grn'),
     );
 }
