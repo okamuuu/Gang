@@ -14,8 +14,9 @@ load --table Keyword
     "_key": "basic",
     "name": "Basic",
     "display_fg": true,
-  },  
+  } 
 ]
+
 load --table Article
 [
   {
