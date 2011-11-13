@@ -13,7 +13,8 @@ column_create Article updated_at COLUMN_SCALAR Time
 
 table_create --name Terms --flags TABLE_PAT_KEY|KEY_NORMALIZE --key_type ShortText --default_tokenizer TokenBigram
 column_create --table Terms --name article_title --flags COLUMN_INDEX|WITH_POSITION --type Article --source title
-column_create --table Terms --name article_keywrods --flags COLUMN_INDEX|WITH_POSITION --type Article --source keywords
+column_create --table Terms --name article_keywords --flags COLUMN_INDEX|WITH_POSITION --type Article --source keywords
+column_create --table Terms --name keyword_name --flags COLUMN_INDEX|WITH_POSITION --type Keyword --source name
 column_create --table Terms --name article_content --flags COLUMN_INDEX|WITH_POSITION --type Article --source content
 
 
