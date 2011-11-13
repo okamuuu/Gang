@@ -1,4 +1,4 @@
-package main;
+#!/usr/bin/env perl
 use strict;
 use warnings;
 use Gang::Path;
@@ -15,7 +15,8 @@ subtest 'create Test::TCP instance as a temporary groonga server.' => sub {
 
     $server = Test::Groonga->create(
         protocol => 'http',
-        preload  => Gang::Path->grn_schema_file
+        preload  => Gang::Path->grn_schema_file,
+        default_command_version => 2,
     );
 
     ok $server , 'Test::TCP';
@@ -25,36 +26,34 @@ subtest 'create Test::TCP instance as a temporary groonga server.' => sub {
 };
 
 use_ok "Gang::Web::Handler";
-my $app = Gang::Web::Handler->app;
+my $admin = Gang::Web::Handler->admin;
 
-test_psgi $app, sub {
+test_psgi $admin, sub {
     my $cb  = shift;
     my $res = $cb->( GET "/" );
 
-    is $res->content, "get_index";
+    is $res->status_line, '302 Found';
 };
 
-test_psgi $app, sub {
-    my $cb  = shift;
-    my $res = $cb->( POST "/" );
-    is $res->content, "post_index";
-};
+done_testing();
 
-test_psgi $app, sub {
+__END__
+
+test_psgi $admin, sub {
     my $cb  = shift;
     my $res = $cb->( GET "/article/list" );
 
     ok $res->status_line, $res->status_line;
 };
 
-test_psgi $app, sub {
+test_psgi $admin, sub {
     my $cb  = shift;
     my $res = $cb->( GET "/article/show" );
 
     ok $res->status_line, $res->status_line;
 };
 
-test_psgi $app, sub {
+test_psgi $admin, sub {
     my $cb  = shift;
     my $res = $cb->( POST "/article/create" );
 
@@ -63,7 +62,7 @@ test_psgi $app, sub {
     is $status_code, 0;
 };
 
-test_psgi $app, sub {
+test_psgi $admin, sub {
     my $cb  = shift;
     my $res = $cb->( POST "/article/update" );
 
@@ -72,7 +71,7 @@ test_psgi $app, sub {
     is $status_code, 0;
 };
 
-test_psgi $app, sub {
+test_psgi $admin, sub {
     my $cb  = shift;
     my $res = $cb->( POST "/article/delete" );
 
@@ -81,7 +80,7 @@ test_psgi $app, sub {
     is $status_code, 0;
 };
 
-test_psgi $app, sub {
+test_psgi $admin, sub {
     my $cb  = shift;
     my $res = $cb->( GET "/admin/keyword/list" );
 
@@ -89,7 +88,6 @@ test_psgi $app, sub {
 
     ok ($res->status_line !~ m/404/ ), $res->status_line;
 };
-
 
 done_testing();
 
