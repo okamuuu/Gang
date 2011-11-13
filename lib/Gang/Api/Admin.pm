@@ -14,10 +14,7 @@ sub delete_keyword {1}
 sub list_keyword {
     my ( $self, $key ) = @_;
 
-    my $result;
-    try { $result = Gang::Unit->grn->list('Keyword') } catch {};
-
-    return $result;
+    return 1;
 }
 
 sub lookup_keyword {
