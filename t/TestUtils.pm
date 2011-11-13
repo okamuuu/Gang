@@ -24,7 +24,7 @@ sub _create {
 
     my $load_tmp_file = Gang::Path->concatenate_to_tmp_file( @preloads);
 
-    return = Test::Groonga->create(
+    return Test::Groonga->create(
         default_command_version => 2,
         protocol => 'http',
         preload  => $load_tmp_file,
