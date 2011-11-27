@@ -17,7 +17,11 @@ my $empty_port = Test::TCP::empty_port();    # this is useful method:)
 my $client = Gang::Groonga::Client->new( port => $empty_port );
 
 subtest 'create tcp instance' => sub {
-    $service = Gang::Service::Groonga->create(port=>$empty_port, db=>$db);
+    $service = Gang::Service::Groonga->create(
+        default_command_version => 2,
+        port                    => $empty_port,
+        db                      => $db
+    );
     isa_ok( $service, 'Test::TCP' );
 };
 
