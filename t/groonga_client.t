@@ -88,8 +88,8 @@ subtest 'get keyword schema info' => sub {
       [
         [ '_id',        'UInt32' ],
         [ '_key',       'ShortText' ],
+        [ 'display_fg', 'Bool' ],
         [ 'name',       'ShortText' ],
-        [ 'display_fg', 'Bool' ]
       ];
 };
 
