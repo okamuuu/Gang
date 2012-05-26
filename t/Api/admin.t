@@ -1,37 +1,52 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use t::TestUtils;
 use Test::More;
+use Test::Exception;
+use Path::Class::File;
+use File::Temp ();
+
+use Data::Dumper;
 
 BEGIN { 
     use_ok('Gang::Api::Admin'); 
 }
 
-my ($grn_server, $api); 
+subtest 'list article' => sub {
 
-subtest 'prepare' => sub {
-    $grn_server = t::TestUtils->create_test_grn_with_20articles;
-    isa_ok($grn_server, 'Test::TCP');
+    my ($err, $result) = Gang::Api::Admin->list_articles(page=>1, rows=>10);
 
-    $Gang::Unit::GRN_SERVER = $grn_server;
+    ok(!$err);
+    ok($result);
 
-    $api = Gang::Api::Admin->new();
 };
 
-subtest 'list Keyword' => sub {
+subtest 'show article' => sub {
 
-    my $result = Gang::Api::Admin->list_keyword;
+    my ($err, $result) = Gang::Api::Admin->show_article(key=>'key1');
 
-    TODO: {
-        local $TODO = 'not implemented';
-
-        plan 'skip_all' => 'because result is return 1.';
-        isa_ok( $result->{pager}, 'Data::Page' );
-        is( @{ $result->{rows} }, 2 );
-    }
+    ok(!$err);
+    ok($result);
 };
 
+subtest 'list keywords' => sub {
 
-done_testing();
+    my ($err, $result) = Gang::Api::Admin->list_keywords(page=>1, rows=>100);
+
+    ok(!$err);
+    ok($result);
+
+};
+
+#subtest 'create article' => sub {
+#
+#    my ($err, $result) = Gang::Api::Admin->create_article(page=>1, rows=>100);
+#
+#    ok(!$err);
+#    ok($result);
+#
+#    warn Dumper $result;
+#};
+
+done_testing;
 

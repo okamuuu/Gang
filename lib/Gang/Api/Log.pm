@@ -41,7 +41,7 @@ sub end {
     if ( $self->log_path() and $self->debug_msg->has_msgs() ) {
 
         my $fh = IO::File->new( $self->log_path(), 'a');
-        
+       
         $fh->print( '-' x 10, "\n" );
         $fh->print($_) for map { "$_\n" } $self->debug_msg->get_msgs();
         $fh->print("\n");

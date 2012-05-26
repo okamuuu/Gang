@@ -1,37 +1,88 @@
 package Gang::Api::Admin;
 use strict;
 use warnings;
-use parent 'Gang::Api::Base';
-use Gang::Unit;
-use Try::Tiny qw/try catch/;
+use Gang::Api::Log;
+use Gang::Model::Article;
+use Gang::Client;
 
-sub create_keyword {1}
+my $LOG_PATH = './log/admin_api.log';
 
-sub update_keyword {1}
-
-sub delete_keyword {1}
-
-sub list_keyword {
-    my ( $self, $key ) = @_;
-
-    return 1;
+sub _start_log {
+    my ( $self, $first_msg ) = @_;
+    return Gang::Api::Log->new( log_path => $LOG_PATH )
+      ->set_debug_msgs($first_msg);
 }
 
-sub lookup_keyword {
-    my ($self, $key) = @_;
+sub list_articles {
+    my ( $class, %args ) = @_;
+    my $log = $class->_start_log('start list article.');
 
-    1;
+    my $query = $args{query};
+
+    my $page = $args{page} || 1;
+    $page = $page =~ m/^\d+$/ ? $page : 1;
+    
+    my $rows = $args{rows} || 10;
+
+    my $cond;
+    if ( $cond->{query} ) {
+        $cond->{match_columns} = join ',', Gang::Model::Article->match_columns;
+    }
+    
+    my $result =
+      Gang::Client->new->list( 'Article', $cond,
+        { page => $page, rows => $rows } );
+
+    return (undef, $result);
 }
 
-sub create_article {1}
+sub show_article {
+    my ( $class, %args ) = @_;
+    my $log = $class->_start_log('start show article.');
 
-sub update_article {1}
+    my $row = Gang::Client->new->lookup( 'Article', $args{key} );
+    my $model = Gang::Model::Article->new( %{$row} );
 
-sub delete_article {1}
+    return (undef, $model);
+}
 
-sub listing_article {1}
+sub list_keywords {
+    my ( $class, %args ) = @_;
+    my $log = $class->_start_log('start list keywords.');
 
-sub lookup_article {1}
+    my $query = $args{query};
+
+    my $page = $args{page} || 1;
+    $page = $page =~ m/^\d+$/ ? $page : 1;
+
+    my $rows = $args{rows} || 10;
+
+    my $cond;
+    if ( $cond->{query} ) {
+        $cond->{match_columns} = join ',', Gang::Model::Keyword->match_columns;
+    }
+    
+    my $result =
+      Gang::Client->new->list( 'Keyword', $cond,
+        { page => $page, rows => $rows } );
+
+    return (undef, $result);
+}
+
+sub create_article {
+    my ( $class, %args ) = @_;
+ 
+    my $model = Gang::Model::Article->new(%args);
+
+    if ( $model->is_valid ) {
+        Gang::Groonga::Client->new->create('Article', \%args);
+    }
+    else { 
+        die('invalid Article data.');
+    }
+   
+    return; 
+}
 
 1;
 

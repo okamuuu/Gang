@@ -16,7 +16,7 @@ sub start_log {
 
 sub list_article {
     my ( $class, %args ) = @_;
-    my $log = $class->start_log('start list api.');
+    my $log = $class->start_log('start list article.');
 
     my $query = $args{query};
 
@@ -27,9 +27,9 @@ sub list_article {
     if ( $cond->{query} ) {
         $cond->{match_columns} = join ',', Gang::Model::Article->match_columns;
     }
-
+    
     my $result =
-      Gang::Groonga::Client->new->list( 'Article', $cond,
+      Gang::Client->new->list( 'Article', $cond,
         { page => $page, rows => 10 } );
 
     return (undef, $result);
@@ -37,8 +37,9 @@ sub list_article {
 
 sub show_article {
     my ( $class, %args ) = @_;
+    my $log = $class->start_log('start show article.');
 
-    my $row = Gang::Groonga::Client->new->lookup( 'Article', $args{key} );
+    my $row = Gang::Client->new->lookup( 'Article', $args{key} );
     my $model = Gang::Model::Article->new( %{$row} );
 
     return (undef, $model);
