@@ -1,23 +1,17 @@
 package Gang::Api;
 use strict;
 use warnings;
-use Gang::Api::Log;
+use parent 'Gang::Api::Base';
 use Gang::Model::Article;
 use Gang::Client;
+
 use Data::Dumper;
 
-my $LOG_PATH = './log/api.log';
-
-sub start_log {
-    my ( $self, $first_msg ) = @_;
-    return Gang::Api::Log->new( log_path => $LOG_PATH )
-      ->set_debug_msgs($first_msg);
-}
-
 sub list_article {
-    my ( $class, %args ) = @_;
-    my $log = $class->start_log('start list article.');
-
+    my ( $self, %args ) = @_;
+   
+    $self->set_debug_msgs('start list article.');
+    
     my $query = $args{query};
 
     my $page = $args{page} || 1;
@@ -27,22 +21,27 @@ sub list_article {
     if ( $cond->{query} ) {
         $cond->{match_columns} = join ',', Gang::Model::Article->match_columns;
     }
-    
-    my $result =
-      Gang::Client->new->list( 'Article', $cond,
+ 
+    ### 都度 new しているのであとで考える   
+    my $result = Gang::Client->new->list( 'Article', $cond,
         { page => $page, rows => 10 } );
+    
+    $self->set_debug_msgs('end list article.');
 
-    return (undef, $result);
+    return $result;
 }
 
 sub show_article {
-    my ( $class, %args ) = @_;
-    my $log = $class->start_log('start show article.');
+    my ( $self, %args ) = @_;
+    
+    $self->set_debug_msgs('start list article.');
 
     my $row = Gang::Client->new->lookup( 'Article', $args{key} );
     my $model = Gang::Model::Article->new( %{$row} );
+    
+    $self->set_debug_msgs('end show article:', $args{key});
 
-    return (undef, $model);
+    return $model;
 }
 
 1;
