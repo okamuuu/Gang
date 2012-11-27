@@ -2,7 +2,7 @@ package Gang::Web::Controller::Keyword;
 use strict;
 use warnings;
 use Gang::Model::Keyword;
-use Gang::Groonga::Client;
+use Gang::Client;
 
 my $TABLE = 'Keyword';
 
@@ -25,7 +25,7 @@ sub get_list {
     $page = $page =~ m/^\d+$/ ? $page : 1;
     
     my $result =
-      Gang::Groonga::Client->new->list( $TABLE, {},
+      Gang::Client->new->list( $TABLE, {},
         { page => $page, rows => 10 } );
 
     $c->stash->{title} .= 'list';
@@ -38,7 +38,7 @@ sub get_list {
 sub get_show {
     my ( $c, $key ) = @_;
 
-    my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
+    my $row = Gang::Client->new->lookup( 'Keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
 
     $c->stash->{model} = $model;
@@ -64,7 +64,7 @@ sub post_create {
     my $model = Gang::Model::Keyword->new(%params);
 
     if ( $model->is_valid ) {
-        Gang::Groonga::Client->new->create('Keyword', {%params});
+        Gang::Client->new->create('Keyword', {%params});
     }
 
     $c->res->redirect( '/keyword/list' );
@@ -73,7 +73,7 @@ sub post_create {
 sub get_edit {
     my ( $c, $key ) = @_;
 
-    my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
+    my $row = Gang::Client->new->lookup( 'Keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
 
     $c->stash->{title} .= 'edit';
@@ -96,7 +96,7 @@ sub post_edit {
     }
 
     if ( $model->is_valid ) {
-        Gang::Groonga::Client->new->update('Keyword', {%params});
+        Gang::Client->new->update('Keyword', {%params});
     }
 
     $c->res->redirect( '/keyword/list' );
@@ -105,7 +105,7 @@ sub post_edit {
 sub get_delete {
     my ( $c, $key ) = @_;
 
-    my $row = Gang::Groonga::Client->new->lookup( 'Keyword', $key );
+    my $row = Gang::Client->new->lookup( 'Keyword', $key );
     my $model = Gang::Model::Keyword->new( %{$row} );
 
     $c->stash->{title} .= 'delete';
@@ -118,7 +118,7 @@ sub get_delete {
 sub post_delete {
     my ( $c, $key ) = @_;
 
-    my $result = Gang::Groonga::Client->new->delete( 'Keyword', $key );
+    my $result = Gang::Client->new->delete( 'Keyword', $key );
 
     $c->res->redirect( '/keyword/list' );
 }
