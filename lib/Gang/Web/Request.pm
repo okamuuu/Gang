@@ -18,14 +18,14 @@ sub query_parameters {
 sub _decode_parameters {
     my ($self, $stuff) = @_;
 
-    my $encoding = 'utf8';
     my @flatten = $stuff->flatten();
     my @decoded;
     while ( my ($k, $v) = splice @flatten, 0, 2 ) {
-        push @decoded, Encode::decode($encoding, $k), Encode::decode($encoding, $v);
+        ### use only utf8
+        push @decoded, Encode::decode('utf8', $k), Encode::decode('utf8', $v);
     }
+    
     return Hash::MultiValue->new(@decoded);
 }
-
 
 1;

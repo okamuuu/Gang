@@ -37,7 +37,9 @@ sub set_debug_msgs {
 
 sub end {
     my $self = shift;
- 
+
+    $self->{_end} = 1;
+
     if ( $self->log_path() and $self->debug_msg->has_msgs() ) {
 
         my $fh = IO::File->new( $self->log_path(), 'a');
@@ -56,7 +58,7 @@ sub end {
 
 } 
 
-sub DESTROY { $_[0]->end(); }
+sub DESTROY { if(!$_[0]->{_end}) { $_[0]->end(); } }
 
 1;
 

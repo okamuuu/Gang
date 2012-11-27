@@ -1,9 +1,12 @@
 package Gang::Web::Controller::Article;
 use strict;
 use warnings;
-use Gang::Api::Admin;
-use Gang::Groonga::Client;
+use Carp ();
+use Gang::Api;
+use Gang::Client;
 use Gang::Model::Article;
+
+my $LOG_PATH = './log/api.log';
 
 my $TABLE = 'Article';
 my $COLUMNS = [ "Gang::Model::$TABLE"->columns() ];
@@ -26,14 +29,10 @@ sub get_index {
 sub get_list {
     my ($c) = @_;
 
-    my ($err, $result) = Gang::Api::Admin->list_articles(
+    my $result = Gang::Api->new(log_path=>$LOG_PATH)->list_articles(
         query => $c->req->param('query') || undef,
         page => $c->req->param('page') || 1,
     );
-
-    if ($err) {
-        die($err);
-    }
 
     $c->stash->{title} .= ' list';
     $c->stash->{columns}  = $LIST_COLUMNS;
@@ -45,11 +44,7 @@ sub get_list {
 sub get_show {
     my ( $c, $key ) = @_;
 
-    my ($err, $model) = Gang::Api::Admin->show_article(key=>$key);
-
-    if ($err) {
-        die($err);
-    }
+    my $model = Gang::Api->new->show_article(key=>$key);
 
     $c->stash->{title} .= ' show';
     $c->stash->{columns} = $COLUMNS;
@@ -60,11 +55,7 @@ sub get_show {
 sub get_create {
     my ($c) = @_;
 
-    my ($err, $result) = Gang::Api::Admin->list_keywords(page => 1, rows => 1000);
-
-    if ($err) {
-        die($err);
-    }
+    my $result = Gang::Api->new->list_keywords(page => 1, rows => 1000);
 
     $c->stash->{keywords} = $result->{rows};
     $c->stash->{title} .= 'create';
@@ -79,27 +70,23 @@ sub post_create {
 
     my $params = $c->req->parameters->mixed;
 
-#    my ($err, $result) = Gang::Api::Admin->create_article(%{$params});
-
-    warn Dumper $params;
-
     my $model = "Gang::Model::$TABLE"->new( %{$params} );
 
-    if ( $model->is_valid ) {
-        Gang::Groonga::Client->new->create( $TABLE, $params );
+    if ( !$model->is_valid ) {
+        Carp::croak('invalid article data.'); 
     }
 
-#    if ($err) {
-#        die($err);
-#    }
-
+    Gang::Client->new->create( $TABLE, $params );
     $c->res->redirect('/article/list');
 }
 
 sub get_edit {
     my ( $c, $key ) = @_;
 
-    my $row = Gang::Groonga::Client->new->lookup( $TABLE, $key );
+    my $result = Gang::Client->new->list( 'Keyword', {key=>$key} );
+    my $keywords = $result->{rows} || [];
+
+    my $row = Gang::Client->new->lookup( $TABLE, $key );
     my $model = "Gang::Model::$TABLE"->new( %{$row} );
 
     $c->stash->{title} .= 'edit';
@@ -107,14 +94,17 @@ sub get_edit {
     $c->stash->{model}    = $model;
     $c->stash->{columns}  = [ "Gang::Model::$TABLE"->columns ];
     $c->stash->{type_of}  = { "Gang::Model::$TABLE"->type_of };
+    $c->stash->{keywords}  = $keywords;
     $c->stash->{template} = 'admin/article/edit.tx';
-
 }
 
 sub post_edit {
     my ( $c, $key ) = @_;
 
-    my %params = %{ $c->req->parameters };
+    my %params = %{ $c->req->parameters->mixed };
+
+    ### bug
+    $params{keywords} = 'perl';
 
     my $model = "Gang::Model::$TABLE"->new(%params);
 
@@ -122,16 +112,18 @@ sub post_edit {
         $params{display_fg} = 0;
     }
 
-    if ( $model->is_valid ) {
-        Gang::Groonga::Client->new->update( $TABLE, {%params} );
+    if ( not $model->is_valid ) {
+        Carp::croak('invalid post data');
     }
-
+    
+    Gang::Client->new->update( $TABLE, {%params} );
     $c->res->redirect('/article/list');
 }
 
 sub get_delete {
     my ( $c, $key ) = @_;
-    my $row = Gang::Groonga::Client->new->lookup( $TABLE, $key );
+
+    my $row = Gang::Client->new->lookup( $TABLE, $key );
     my $model = "Gang::Model::$TABLE"->new( %{$row} );
 
     $c->stash->{title} .= 'delete';
@@ -140,12 +132,11 @@ sub get_delete {
     $c->stash->{columns} =
       [ grep { $_ ne '_id' } "Gang::Model::$TABLE"->columns ];
     $c->stash->{template} = 'admin/article/delete.tx';
-
 }
 
 sub post_delete {
     my ( $c, $key ) = @_;
-    my $result = Gang::Groonga::Client->new->delete( $TABLE, $key );
+    my $result = Gang::Client->new->delete( $TABLE, $key );
     $c->res->redirect('/article/list');
 }
 

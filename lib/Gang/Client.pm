@@ -71,6 +71,9 @@ sub list {
         Carp::croak("'query' and 'match_columns' must be used together...");
     }
 
+    use Data::Dumper;
+    warn Dumper $cond;
+
     my $uri = $self->_uri("select");
     $uri->query_form(
         table          => $table,
@@ -82,6 +85,9 @@ sub list {
         offset         => $offset,
         query_cache    => 'no',
     );
+
+    use Data::Dumper;
+    warn Dumper $uri;
 
     my $data = JSON::decode_json( $self->_get($uri)->content );
 
@@ -168,8 +174,7 @@ sub update {
         values     => JSON::encode_json($params_ref),
     );
    
-    my $result =  JSON::decode_json( $self->_get($uri)->content );
-    return $result;
+    return JSON::decode_json( $self->_get($uri)->content );
 }
 
 sub delete {

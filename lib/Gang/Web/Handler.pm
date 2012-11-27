@@ -30,7 +30,6 @@ sub admin {
         );
 
         try {
-            ### XXX: add get_splats to Route?
             my @splats = $matched_route->{splat} ? @{ $matched_route->{splat} } : ();
             
             ### context run through in suited controllers with splats.

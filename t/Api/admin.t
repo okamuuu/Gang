@@ -14,11 +14,9 @@ BEGIN {
 
 subtest 'list article' => sub {
 
-    my ($err, $result) = Gang::Api::Admin->list_articles(page=>1, rows=>10);
+    my $result = Gang::Api::Admin->list_articles(page=>1, rows=>10);
 
-    ok(!$err);
     ok($result);
-
 };
 
 subtest 'show article' => sub {

@@ -12,9 +12,9 @@ sub new {
     
     bless {
         log_path   => $args{log_path},
-        status_msg => Gang::Api::Msg->new,
-        error_msg  => Gang::Api::Msg->new,
-        debug_msg  => Gang::Api::DebugMsg->new,
+        status_msg => Gang::Api::Msg->new(),
+        error_msg  => Gang::Api::Msg->new(),
+        debug_msg  => Gang::Api::DebugMsg->new(),
     }, $class;
 }
 
@@ -37,10 +37,12 @@ sub set_debug_msgs {
 
 sub DESTROY {
     my $self = shift;
-   
-    my $debug_msg_count = $self->debug_msg->has_msgs; 
 
-    if ( $self->log_path and $debug_msg_count ) {
+    if(!$self->debug_msg->has_msgs) {
+        return;
+    }
+
+    if ( $self->log_path) {
 
         my $fh = IO::File->new( $self->log_path, 'a');
         
@@ -49,11 +51,8 @@ sub DESTROY {
         $fh->print("\n");
         $fh->close;
     }
-    elsif ( $debug_msg_count ) {
-        warn $_ for $self->debug_msg->get_msgs(); 
-    }
     else {
-        return;
+        warn $_ for $self->debug_msg->get_msgs(); 
     }
 }
 
